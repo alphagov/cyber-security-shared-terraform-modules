@@ -5,7 +5,7 @@
       "Effect": "Allow",
       "Principal": {
         "AWS": [
-            "arn:aws:iam::${chain_account_id}:role/${var.prefix}GDSSecurityAuditChain"
+            "arn:aws:iam::${chain_account_id}:role/${prefix}GDSSecurityAuditChain"
         ]
       },
       "Action": "sts:AssumeRole"
