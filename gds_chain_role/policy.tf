@@ -6,6 +6,11 @@ data "aws_iam_policy_document" "policy" {
     actions   = ["sts:AssumeRole"]
     resources = ["${var.assume_arn}"]
   }
+
+  statement {
+    effect    = "Allow"
+    actions   = ["sts:GetCallerIdentity"]
+  }
 }
 
 resource "aws_iam_role_policy" "gds_chain_role_policy" {
