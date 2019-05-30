@@ -12,7 +12,7 @@ data "aws_iam_policy_document" "policy" {
   statement {
     effect    = "Allow"
     actions   = ["sts:AssumeRole"]
-    resources = "${var.assume_arn}"
+    resources = ["${var.assume_arn}"]
   }
 }
 
