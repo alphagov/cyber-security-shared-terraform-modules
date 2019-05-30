@@ -2,7 +2,7 @@ data "template_file" "trust" {
   template = "${file("${path.module}/json/trust.json")}"
 
   vars {
-    trust_arns  = "${jsonencode(split(",", var.trust_arns))}"
+    trust_arns  = "${jsonencode(var.trust_arns)}"
   }
 }
 
