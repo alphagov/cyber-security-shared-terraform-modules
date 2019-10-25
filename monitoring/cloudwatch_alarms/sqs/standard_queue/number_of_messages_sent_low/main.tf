@@ -22,6 +22,7 @@ locals {
 	label = ""
         return_data = ""
   }
+}
 
 # locals {
 #    sqs_alarm_tags = {
