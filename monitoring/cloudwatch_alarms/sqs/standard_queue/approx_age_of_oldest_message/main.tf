@@ -56,11 +56,12 @@ resource "aws_cloudwatch_metric_alarm" "cloudwatch_metric_alarm" {
   #metric_query		     = var.metric_query
   #tags                      = local.sqs_alarm_tags
 
-  # calculate 10% above the threshold
+  # calculate 10% above the latest metric result
   metric_query {
         id = "e2"
-        expression = "m1/10+10"
-        label = "10_percent_over_threshold"
+        #expression = "m1/10+10"
+        expression = "m1*1.1"
+        label = "10_percent_over_latest_metric_result"
         return_data = "true"
   }
 

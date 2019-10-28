@@ -17,7 +17,7 @@ locals {
 }
 
 locals {
-  comparison_operator = "GreaterThan"
+  comparison_operator = "GreaterThanThreshold"
 }
 
 locals {
