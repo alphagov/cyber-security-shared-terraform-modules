@@ -1,5 +1,10 @@
-variable "role_name" {}
-variable "trust_arns" {
-  type = "list"
+variable "role_name" {
 }
-variable "assume_arn" {}
+
+variable "trust_arns" {
+  type = list(string)
+}
+
+variable "assume_arn" {
+}
+
