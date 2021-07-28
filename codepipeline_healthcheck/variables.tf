@@ -5,6 +5,5 @@ variable "pipeline_name" {
 
 variable "health_notification_topic_name" {
   type        = string
-  default     = "codepipeline-health-notification"
   description = "Name of the SNS topic used for the health notification"
 }
