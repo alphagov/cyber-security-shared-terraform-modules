@@ -1,0 +1,28 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  pre_build:
+    commands:
+      - echo '[INFO] Validate Terraform...'
+      - cd terraform/deployments/$AWS_ACCOUNT_ID
+      - terraform init --backend=false
+      - terraform validate
+  build:
+    commands:
+      - echo '[INFO] Assuming TF Deployer IAM role...'
+      - role_arn="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
+      - source /usr/local/bin/sts-assume-role.sh "$role_arn" "$AWS_DEFAULT_REGION"
+      - terraform init
+      - # echo '[INFO] Not actually applying'
+      - # terraform plan --out=/opt/terraform_$AWS_ACCOUNT_ID.plan
+      - terraform apply --auto-approve
+
+#artifacts:
+ # name: TerraformPlanArtifacts
+  #files:
+   # - terraform_$AWS_ACCOUNT_ID.plan
+  #discard-paths: no
+  #base-directory: /opt
