@@ -27,7 +27,7 @@ resource "aws_codebuild_project" "code_pipeline_terraform" {
 
     environment_variable {
       name  = "AWS_ACCOUNT_ID"
-      value = var.account_id
+      value = var.deployment_account_id
     }
 
     environment_variable {

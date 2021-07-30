@@ -3,7 +3,7 @@ variable "region_name" {
   default = "eu-west-2"
 }
 
-variable "account_id" {
+variable "deployment_account_id" {
   type = string
 }
 
