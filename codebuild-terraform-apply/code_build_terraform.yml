@@ -15,7 +15,7 @@ phases:
       - echo '[INFO] Assuming TF Deployer IAM role...'
       - role_arn="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
       - source /usr/local/bin/sts-assume-role.sh "$role_arn" "$AWS_DEFAULT_REGION"
-      - if [ -z "$BACKEND_VAR_FILE" ]
+      - if [ -f "$BACKEND_VAR_FILE" ]
         then
           terraform init
         else
@@ -23,7 +23,7 @@ phases:
         fi
       - # echo '[INFO] Not actually applying'
       - # terraform plan --out=/opt/terraform_$AWS_ACCOUNT_ID.plan
-      - if [ -z "$APPLY_VAR_FILE" ]
+      - if [ -f "$APPLY_VAR_FILE" ]
         then
           terraform apply --auto-approve
         else
