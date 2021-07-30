@@ -17,10 +17,12 @@ variable "terraform_path" {
 
 variable "backend_var_file" {
   type = string
+  default = ""
 }
 
 variable "apply_var_file" {
   type = string
+  default = ""
 }
 
 variable "execution_role_name" {

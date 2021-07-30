@@ -1,6 +1,6 @@
 resource "aws_codebuild_project" "code_pipeline_terraform" {
   name        = "code-pipeline-terraform"
-  description = "Run terraform vdd alidate and then terraform apply"
+  description = "Run terraform validate and then terraform apply"
 
   service_role = data.aws_iam_role.execution_role.arn
 
@@ -38,6 +38,16 @@ resource "aws_codebuild_project" "code_pipeline_terraform" {
     environment_variable {
       name  = "ROLE_NAME"
       value = var.role_name
+    }
+
+    environment_variable {
+      name = "BACKEND_VAR_FILE"
+      value = var.backend_var_file
+    }
+
+    environment_variable {
+      name = "APPLY_VAR_FILE"
+      value = var.apply_var_file
     }
   }
 
