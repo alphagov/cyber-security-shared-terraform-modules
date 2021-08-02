@@ -15,7 +15,7 @@ resource "aws_codebuild_project" "code_pipeline_terraform" {
 
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = "gdscyber/cyber-security-concourse-base-image:latest"
+    image                       = var.codebuild_image
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "SERVICE_ROLE"
     privileged_mode             = false

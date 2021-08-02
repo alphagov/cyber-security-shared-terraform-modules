@@ -34,3 +34,8 @@ variable "codebuild_service_role_name" {
   description = "the role code build uses to access other AWS services"
   type        = string
 }
+
+variable "codebuild_image" {
+  description = "The image that CodeBuild will use, including the tag."
+  type        = string
+}
