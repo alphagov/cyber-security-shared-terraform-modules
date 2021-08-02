@@ -32,7 +32,7 @@ resource "aws_codebuild_project" "code_pipeline_terraform" {
 
     environment_variable {
       name  = "ROLE_NAME"
-      value = var.role_name
+      value = var.deployment_role_name
     }
 
     environment_variable {
