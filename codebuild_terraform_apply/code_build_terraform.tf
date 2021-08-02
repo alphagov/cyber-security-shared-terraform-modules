@@ -49,6 +49,11 @@ resource "aws_codebuild_project" "code_pipeline_terraform" {
       name = "APPLY_VAR_FILE"
       value = var.apply_var_file
     }
+
+    environment_variable {
+      name = "TERRAFORM_DIRECTORY"
+      value = var.terraform_directory
+    }
   }
 
   source {
