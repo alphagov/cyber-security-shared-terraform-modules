@@ -1,3 +1,3 @@
 data "aws_iam_role" "execution_role" {
-  name = var.execution_role_name
+  name = var.codebuild_service_role_name
 }
