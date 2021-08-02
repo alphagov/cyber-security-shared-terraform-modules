@@ -41,17 +41,17 @@ resource "aws_codebuild_project" "code_pipeline_terraform" {
     }
 
     environment_variable {
-      name = "BACKEND_VAR_FILE"
+      name  = "BACKEND_VAR_FILE"
       value = var.backend_var_file
     }
 
     environment_variable {
-      name = "APPLY_VAR_FILE"
+      name  = "APPLY_VAR_FILE"
       value = var.apply_var_file
     }
 
     environment_variable {
-      name = "TERRAFORM_DIRECTORY"
+      name  = "TERRAFORM_DIRECTORY"
       value = var.terraform_directory
     }
   }
