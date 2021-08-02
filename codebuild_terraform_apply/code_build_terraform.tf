@@ -20,11 +20,6 @@ resource "aws_codebuild_project" "code_pipeline_terraform" {
     image_pull_credentials_type = "SERVICE_ROLE"
     privileged_mode             = false
 
-    registry_credential {
-      credential          = data.aws_secretsmanager_secret.dockerhub_creds.arn
-      credential_provider = "SECRETS_MANAGER"
-    }
-
     environment_variable {
       name  = "AWS_ACCOUNT_ID"
       value = var.deployment_account_id
