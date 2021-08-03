@@ -1,0 +1,20 @@
+version: 0.2
+
+env:
+  shell: bash
+
+  pre_build:
+    commands:
+      - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - cd $CODEBUILD_SRC_DIR
+      - docker build -t $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $DOCKERHUB_CONTEXT -f $DOCKERHUB_DOCKERFILE
+      - docker tag $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG
