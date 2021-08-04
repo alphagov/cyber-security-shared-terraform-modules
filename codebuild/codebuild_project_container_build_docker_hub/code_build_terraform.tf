@@ -2,7 +2,7 @@ resource "aws_codebuild_project" "code_pipeline_container_build_docker_hub" {
   name        = "codebuild-project-container-build-docker-hub"
   description = "Build and push images to dockerhub"
 
-  service_role = data.aws_iam_role.execution_role.arn
+  service_role = "arn:aws:iam::670214072732:role/CodePipelineExecutionRole"
 
   artifacts {
     type = "CODEPIPELINE"
@@ -15,7 +15,7 @@ resource "aws_codebuild_project" "code_pipeline_container_build_docker_hub" {
 
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = var.codebuild_image
+    image                       = "gdscyber/cyber-security-concourse-base-image"
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "SERVICE_ROLE"
     privileged_mode             = false
