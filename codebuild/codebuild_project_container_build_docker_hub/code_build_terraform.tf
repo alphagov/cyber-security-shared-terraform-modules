@@ -2,7 +2,7 @@ resource "aws_codebuild_project" "code_pipeline_container_build_docker_hub" {
   name        = "${var.pipeline_name}-dockerhub-deploy-${var.environment}"
   description = "Build and push images to dockerhub"
 
-  service_role = var.service_role_arn
+  service_role = var.service_role_name
 
   artifacts {
     type = "CODEPIPELINE"
