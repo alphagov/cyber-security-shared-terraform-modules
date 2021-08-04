@@ -16,12 +16,12 @@ variable "build_context" {
 
 variable "pipeline_name" { 
   type        = string
-  description = "Path to the folder to run docker build from"
+  description = "Name of the pipeline"
 }
 
 variable "environment" { 
   type        = string
-  description = "Path to the folder to run docker build from"
+  description = "Enviroment this module will be ran"
 }
 
 variable "service_role_name" {
