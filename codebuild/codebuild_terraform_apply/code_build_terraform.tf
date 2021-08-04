@@ -1,5 +1,5 @@
 resource "aws_codebuild_project" "code_pipeline_terraform" {
-  name        = "code-pipeline-terraform"
+  name        = "${var.pipeline_name}-terraform-${var.environment}"
   description = "Run terraform validate and then terraform apply"
 
   service_role = data.aws_iam_role.execution_role.arn

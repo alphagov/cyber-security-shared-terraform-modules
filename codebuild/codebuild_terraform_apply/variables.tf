@@ -39,3 +39,13 @@ variable "codebuild_image" {
   description = "The image that CodeBuild will use, including the tag."
   type        = string
 }
+
+variable "pipeline_name" {
+  description = "The name of the pipeline this project will be a part of"
+  type        = string
+}
+
+variable "environment" {
+  description = "e.g. staging, production"
+  type        = string
+}
