@@ -15,9 +15,9 @@ resource "aws_codebuild_project" "code_pipeline_container_build_docker_hub" {
 
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = "gdscyber/cyber-security-concourse-base-image"
+    image                       = "aws/codebuild/standard:4.0"
     type                        = "LINUX_CONTAINER"
-    image_pull_credentials_type = "SERVICE_ROLE"
+    image_pull_credentials_type = "CODEBUILD"
     privileged_mode             = false
 
     environment_variable {
