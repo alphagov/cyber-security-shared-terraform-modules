@@ -21,12 +21,7 @@ resource "aws_codebuild_project" "code_pipeline_container_build_docker_hub" {
     privileged_mode             = true
 
     environment_variable {
-      name  = "IMAGE_NAME"
-      value = var.image_name
-    }
-
-    environment_variable {
-      name  = "IMAGE_TAG"
+      name  = "DOCKERHUB_IMAGE_TAG"
       value = var.image_tag
     }
 
@@ -53,11 +48,6 @@ resource "aws_codebuild_project" "code_pipeline_container_build_docker_hub" {
     environment_variable {
       name  = "DOCKERHUB_REPO"
       value = var.docker_hub_repo
-    }
-
-    environment_variable {
-      name  = "DOCKERHUB_IMAGE_TAG"
-      value = var.image_tag
     }
   }
 
