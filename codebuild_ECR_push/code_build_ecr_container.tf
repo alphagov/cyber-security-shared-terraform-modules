@@ -39,6 +39,11 @@ resource "aws_codebuild_project" "code_pipeline_ecr_container" {
     }
 
     environment_variable {
+      name  = "ECR_DOCKERFILE"
+      value = var.ecr_dockerfile
+    }
+
+    environment_variable {
       name  = "ECR_IMAGE_REPO_NAME"
       value = var.ecr_image_repo_name
     }
