@@ -49,6 +49,16 @@ resource "aws_codebuild_project" "code_pipeline_container_build_docker_hub" {
       name  = "DOCKERHUB_PASSWORD"
       value = var.docker_hub_password
     }
+
+    environment_variable {
+      name  = "DOCKERHUB_REPO"
+      value = var.docker_hub_repo
+    }
+
+    environment_variable {
+      name  = "DOCKERHUB_IMAGE_TAG"
+      value = var.image_tag
+    }
   }
 
   source {

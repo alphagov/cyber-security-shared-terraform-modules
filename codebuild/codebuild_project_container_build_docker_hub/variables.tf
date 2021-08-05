@@ -1,6 +1,6 @@
-variable "image_name" {
+variable "docker_hub_repo" {
   type        = string
-  description = "Name of the image "
+  description = "Name of the Dockerhub repo"
 }
 
 variable "image_tag" {
@@ -8,7 +8,7 @@ variable "image_tag" {
   description = "Image tag, eg; docker-image:1.0"
 }
 
-variable "build_context" { 
+variable "build_context" {
   type        = string
   description = "Path to the folder to run docker build from"
 
