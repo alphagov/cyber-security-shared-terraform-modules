@@ -11,38 +11,34 @@ variable "image_tag" {
 variable "build_context" {
   type        = string
   description = "Path to the folder to run docker build from"
-
 }
 
-variable "pipeline_name" { 
+variable "pipeline_name" {
   type        = string
   description = "Name of the pipeline"
 }
 
-variable "environment" { 
+variable "environment" {
   type        = string
   description = "Enviroment this module will be ran"
 }
 
 variable "service_role_name" {
-    type        = string
-    description = "name of the service role"
+  type        = string
+  description = "name of the service role"
 }
 
 variable "dockerfile" {
   type        = string
   description = "Path to the dockerfile"
-
 }
 
 variable "docker_hub_username" {
   type        = string
   description = "Dockerhub Username"
-
 }
 
 variable "docker_hub_password" {
   type        = string
   description = "Dockerhub password"
-
 }
