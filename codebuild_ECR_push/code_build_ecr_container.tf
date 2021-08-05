@@ -1,5 +1,5 @@
 resource "aws_codebuild_project" "code_pipeline_ecr_container" {
-  name        = "code-pipeline-ecr-container"
+  name        = "${var.pipeline_name}-ecr-${var.environment}"
   description = "Build container and push to ECR"
 
   service_role = data.aws_iam_role.execution_role.arn

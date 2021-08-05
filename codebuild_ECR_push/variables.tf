@@ -2,6 +2,15 @@ variable "region_name" {
   type    = string
   default = "eu-west-2"
 }
+variable "environment" {
+  type        = string
+  description = "Enviroment this module will be ran"
+}
+
+variable "pipeline_name" {
+  type        = string
+  description = "Name of the pipeline"
+}
 
 variable "deployment_account_id" {
   description = "The AWS account id where you are deploying to ECR image to."
