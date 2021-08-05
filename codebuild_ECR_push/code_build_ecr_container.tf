@@ -16,10 +16,10 @@ resource "aws_codebuild_project" "code_pipeline_ecr_container" {
 
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = var.codebuild_image
+    image                       = "aws/codebuild/standard:4.0"
     type                        = "LINUX_CONTAINER"
-    image_pull_credentials_type = "SERVICE_ROLE"
-    privileged_mode             = false
+    image_pull_credentials_type = "CODEBUILD"
+    privileged_mode             = true
 
     environment_variable {
       name  = "DOCKERHUB_USERNAME"
@@ -36,6 +36,11 @@ resource "aws_codebuild_project" "code_pipeline_ecr_container" {
     environment_variable {
       name  = "ECR_CONTEXT"
       value = var.ecr_context
+    }
+
+    environment_variable {
+      name  = "ECR_IMAGE_REPO_NAME"
+      value = var.ecr_image_repo_name
     }
 
     environment_variable {

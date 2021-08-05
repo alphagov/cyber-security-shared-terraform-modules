@@ -12,6 +12,11 @@ variable "pipeline_name" {
   description = "Name of the pipeline"
 }
 
+variable "ecr_dockerfile" {
+  type        = string
+  description = "Dockerfile to be used to build image"
+}
+
 variable "deployment_account_id" {
   description = "The AWS account id where you are deploying to ECR image to."
   type        = string
@@ -27,11 +32,6 @@ variable "codebuild_service_role_name" {
   type        = string
 }
 
-variable "codebuild_image" {
-  description = "The image that CodeBuild will use, including the tag."
-  type        = string
-}
-
 variable "ecr_context" {
   description = "The absolute path to folder to run docker build from."
   type        = string
@@ -41,6 +41,12 @@ variable "ecr_image_tag" {
   description = "The name you want to tag the image."
   type        = string
 }
+
+variable "ecr_image_repo_name" {
+  description = "The name you want to repo name the image."
+  type        = string
+}
+
 
 variable "dockerhub_username" {
   description = "The name of the Docker username in SSM"
