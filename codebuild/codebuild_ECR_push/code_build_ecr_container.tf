@@ -59,11 +59,6 @@ resource "aws_codebuild_project" "code_pipeline_ecr_container" {
     }
 
     environment_variable {
-      name  = "AWS_DEFAULT_REGION"
-      value = var.region_name
-    }
-
-    environment_variable {
       name  = "ROLE_NAME"
       value = var.deployment_role_name
     }

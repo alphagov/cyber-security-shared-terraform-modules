@@ -1,7 +1,3 @@
-variable "region_name" {
-  type    = string
-  default = "eu-west-2"
-}
 variable "environment" {
   type        = string
   description = "Enviroment this module will be ran"
