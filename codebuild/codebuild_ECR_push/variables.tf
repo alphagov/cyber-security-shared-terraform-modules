@@ -8,7 +8,7 @@ variable "pipeline_name" {
   description = "Name of the pipeline"
 }
 
-variable "ecr_dockerfile" {
+variable "dockerfile" {
   type        = string
   description = "Dockerfile to be used to build image"
 }
@@ -28,12 +28,12 @@ variable "codebuild_service_role_name" {
   type        = string
 }
 
-variable "ecr_context" {
+variable "build_context" {
   description = "The absolute path to folder to run docker build from."
   type        = string
 }
 
-variable "ecr_image_tag" {
+variable "image_tag" {
   description = "The name you want to tag the image."
   type        = string
   default     = "latest"

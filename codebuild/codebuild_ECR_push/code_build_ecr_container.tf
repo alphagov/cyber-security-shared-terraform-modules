@@ -33,12 +33,12 @@ resource "aws_codebuild_project" "code_pipeline_ecr_container" {
 
     environment_variable {
       name  = "ECR_CONTEXT"
-      value = var.ecr_context
+      value = var.build_context
     }
 
     environment_variable {
       name  = "ECR_DOCKERFILE"
-      value = var.ecr_dockerfile
+      value = var.dockerfile
     }
 
     environment_variable {
@@ -48,7 +48,7 @@ resource "aws_codebuild_project" "code_pipeline_ecr_container" {
 
     environment_variable {
       name  = "ECR_IMAGE_TAG"
-      value = var.ecr_image_tag
+      value = var.image_tag
     }
 
     environment_variable {
