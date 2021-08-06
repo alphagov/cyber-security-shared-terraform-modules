@@ -45,14 +45,12 @@ variable "ecr_image_repo_name" {
 }
 
 
-variable "dockerhub_username" {
-  description = "The name of the Docker username in SSM"
+variable "docker_hub_username" {
+  description = "The username used to authenticate with Docker Hub"
   type        = string
-  default     = "docker_hub_credentials:username"
 }
 
-variable "dockerhub_password" {
-  description = "The name of the Docker password in SSM"
+variable "docker_hub_password" {
+  description = "The password used to authenticate with Docker Hub"
   type        = string
-  default     = "docker_hub_credentials:password"
 }
