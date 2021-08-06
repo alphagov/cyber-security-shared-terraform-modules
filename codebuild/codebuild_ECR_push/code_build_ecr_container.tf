@@ -22,6 +22,18 @@ resource "aws_codebuild_project" "code_pipeline_ecr_container" {
     privileged_mode             = true
 
     environment_variable {
+      name  = "DOCKERHUB_USERNAME"
+      value = var.dockerhub_username
+      type  = "SECRETS_MANAGER"
+    }
+
+    environment_variable {
+      name  = "DOCKERHUB_PASSWORD"
+      value = var.dockerhub_password
+      type  = "SECRETS_MANAGER"
+    }
+
+    environment_variable {
       name  = "ECR_CONTEXT"
       value = var.ecr_context
     }
