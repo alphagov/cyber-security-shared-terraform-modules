@@ -53,5 +53,5 @@ variable "docker_hub_username" {
 variable "docker_hub_password" {
   description = "The password used to authenticate with Docker Hub"
   type        = string
-  sensitive   = true
+  # sensitive   = true # Terraform 0.14 only, unfortunately
 }
