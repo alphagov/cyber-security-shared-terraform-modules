@@ -36,6 +36,7 @@ variable "ecr_context" {
 variable "ecr_image_tag" {
   description = "The name you want to tag the image."
   type        = string
+  default     = "latest"
 }
 
 variable "ecr_image_repo_name" {
