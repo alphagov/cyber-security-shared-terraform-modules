@@ -34,24 +34,12 @@ variable "ecr_context" {
 }
 
 variable "ecr_image_tag" {
-  description = "The name you want to tag the image."
+  description = "The name you want to tag the image. (Default: latest)"
   type        = string
+  default     = "latest"
 }
 
 variable "ecr_image_repo_name" {
   description = "The name you want to repo name the image."
   type        = string
-}
-
-
-variable "dockerhub_username" {
-  description = "The name of the Docker username in SSM"
-  type        = string
-  default     = "docker_hub_credentials:username"
-}
-
-variable "dockerhub_password" {
-  description = "The name of the Docker password in SSM"
-  type        = string
-  default     = "docker_hub_credentials:password"
 }

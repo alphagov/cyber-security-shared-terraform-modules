@@ -5,8 +5,6 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
-      # - echo Logging into Dockerhub...
-      # - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       - echo Assuming role into target AWS account for deployment
       - role_arn="arn:aws:iam::${AWS_ACCOUNT_ID}:role/${ROLE_NAME}"
       - TF_DEPLOYER_ROLE=`aws sts assume-role --role-arn $role_arn --role-session-name concourse-task`
