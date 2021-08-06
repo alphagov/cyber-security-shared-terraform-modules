@@ -42,4 +42,5 @@ variable "docker_hub_username" {
 variable "docker_hub_password" {
   type        = string
   description = "Dockerhub password"
+  sensitive   = true
 }
