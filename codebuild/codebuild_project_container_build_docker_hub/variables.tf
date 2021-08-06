@@ -5,7 +5,8 @@ variable "docker_hub_repo" {
 
 variable "image_tag" {
   type        = string
-  description = "Image tag, eg; docker-image:1.0"
+  description = "Image tag, eg; docker-image:1.0 (Default: latest)"
+  default     = "latest"
 }
 
 variable "build_context" {
