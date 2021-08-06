@@ -19,7 +19,7 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image...
       - cd $CODEBUILD_SRC_DIR
-      - docker build -t $ECR_IMAGE_REPO_NAME:$ECR_IMAGE_TAG $ECR_CONTEXT -f $ECR_DOCKERFILE
+      - docker build -t ${ECR_IMAGE_REPO_NAME}:${ECR_IMAGE_TAG} $ECR_CONTEXT -f $ECR_DOCKERFILE
       - docker tag ${ECR_IMAGE_REPO_NAME}:${ECR_IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_IMAGE_REPO_NAME}:${ECR_IMAGE_TAG}
   post_build:
     commands:
