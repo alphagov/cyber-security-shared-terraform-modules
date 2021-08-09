@@ -26,4 +26,4 @@ phases:
       - aws sts get-caller-identity
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - # docker push $AWS_ACCOUNT_ID.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_IMAGE_REPO_NAME}:${ECR_IMAGE_TAG}
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_IMAGE_REPO_NAME}:${ECR_IMAGE_TAG}
