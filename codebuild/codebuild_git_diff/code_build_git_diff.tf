@@ -4,11 +4,14 @@ resource "aws_codebuild_project" "code_pipeline_git_diff" {
 
   service_role = data.aws_iam_role.execution_role.arn
 
+  # artifacts {
+  #   location = var.artifact_bucket
+  #   type = "S3"
+  #   path = "${var.pipeline_name}-${var.environment}/"
+  #   name = var.output_filename
+  # }
   artifacts {
-    location = var.artifact_bucket
-    type = "S3"
-    path = "${var.pipeline_name}-${var.environment}/"
-    name = var.output_filename
+    type = "CODEPIPELINE"
   }
 
   cache {
