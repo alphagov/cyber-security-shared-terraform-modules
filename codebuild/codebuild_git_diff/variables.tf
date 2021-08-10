@@ -48,3 +48,8 @@ variable "artifact_bucket" {
   description = "S3 path where the artifact will be stored."
   type        = string
 }
+
+variable "codebuild_image" {
+  description = ""
+  type        = string
+}
