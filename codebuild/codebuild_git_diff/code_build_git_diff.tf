@@ -25,11 +25,11 @@ resource "aws_codebuild_project" "code_pipeline_git_diff" {
     image                       = var.codebuild_image
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "SERVICE_ROLE"
-    privileged_mode             = true
+    privileged_mode             = false
 
     registry_credential {
-        credential          = data.aws_secretsmanager_secret.dockerhub_creds.arn
         credential_provider = "SECRETS_MANAGER"
+        credential          = data.aws_secretsmanager_secret.dockerhub_creds.arn
       }
   
     environment_variable {
