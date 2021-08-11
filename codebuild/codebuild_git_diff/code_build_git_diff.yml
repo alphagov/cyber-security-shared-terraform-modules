@@ -22,9 +22,9 @@ phases:
     commands:
       - echo test
 
-artifacts:
-  secondary-artifacts:
-    git-diff-file:
-      base-directory: $CODEBUILD_SRC_DIR
-      files: 
-        - ${OUTPUT_FILENAME}
+# artifacts:
+#   secondary-artifacts:
+#     git-diff-file:
+#       base-directory: $CODEBUILD_SRC_DIR
+#       files: 
+#         - ${OUTPUT_FILENAME}
