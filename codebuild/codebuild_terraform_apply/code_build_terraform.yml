@@ -22,11 +22,11 @@ phases:
         fi
       - # echo '[INFO] Not actually applying'
       - # terraform plan --out=/opt/terraform_$AWS_ACCOUNT_ID.plan
-      - if [ -f "$APPLY_VAR_FILE" ]; then
-          terraform apply --auto-approve -var-file="$APPLY_VAR_FILE";
-        else
-          terraform apply --auto-approve;
-        fi
+      # - if [ -f "$APPLY_VAR_FILE" ]; then
+      #     terraform apply --auto-approve -var-file="$APPLY_VAR_FILE";
+      #   else
+      #     terraform apply --auto-approve;
+      #   fi
 
 #artifacts:
  # name: TerraformPlanArtifacts
