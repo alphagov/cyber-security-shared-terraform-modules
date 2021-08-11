@@ -23,10 +23,10 @@ variable "codebuild_service_role_name" {
   type        = string
 }
 
-# variable "github_pat" {
-#   description = "The pat token to authorise your github account."
-#   type        = string
-# }
+variable "github_pat" {
+  description = "The pat token to authorise your github account."
+  type        = string
+}
 
 variable "github_org" {
   description = "The github org where your repo is."
