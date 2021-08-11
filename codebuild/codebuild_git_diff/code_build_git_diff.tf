@@ -45,7 +45,7 @@ resource "aws_codebuild_project" "code_pipeline_git_diff" {
      environment_variable {
       name  = "GITHUB_PAT"
       value = var.github_pat
-      type  = "SECRETS_MANAGER"
+      type  = "PARAMETER_STORE"
     }
 
     environment_variable {
