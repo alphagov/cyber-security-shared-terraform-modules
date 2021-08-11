@@ -42,11 +42,11 @@ resource "aws_codebuild_project" "code_pipeline_git_diff" {
       value = var.deployment_role_name
     }
 
-     environment_variable {
-      name  = "GITHUB_PAT"
-      value = var.github_pat
-      type  = "SECRETS_MANAGER"
-    }
+    #  environment_variable {
+    #   name  = "GITHUB_PAT"
+    #   value = var.github_pat
+    #   type  = "SECRETS_MANAGER"
+    # }
 
     environment_variable {
       name  = "GITHUB_ORG"
