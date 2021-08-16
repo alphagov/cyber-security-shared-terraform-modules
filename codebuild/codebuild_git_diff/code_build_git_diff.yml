@@ -9,9 +9,9 @@ phases:
       - echo outputting git diff file...
       - ls -la
       - ls bin/
-      - ls /usr/local/bin/ 
+      - ls -la /usr/local/bin/ 
       - cd $CODEBUILD_SRC_DIR
-      - ./bin/get_pr_changed_files_list.sh ${REPO_NAME} ${OUTPUT_FILENAME}
+      - source /usr/local/bin/get_pr_changed_files_list.sh ${REPO_NAME} ${OUTPUT_FILENAME}
   post_build:
     commands:
       - echo test
