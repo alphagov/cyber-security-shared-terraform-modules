@@ -7,6 +7,9 @@ phases:
   pre_build:
     commands:
       - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+      - ls -la $CODEBUILD_SRC_DIR_git_diff_file
+      - ls -la $CODEBUILD_SRC_DIR_changed_files.json
+
   build:
     commands:
       - echo Build started on `date`
