@@ -9,8 +9,9 @@ resource "aws_codebuild_project" "code_pipeline_git_diff" {
   }
 
   secondary_artifacts {
-    type = "CODEPIPELINE"
-    name = var.output_filename
+    type                = "CODEPIPELINE"
+    name                = var.output_filename
+    artifact_identifier = "git-diff-file"
   }
 
   cache {
