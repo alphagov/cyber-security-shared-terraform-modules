@@ -1,0 +1,14 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo '[INFO] Installing requirements for tox'
+      - cd $PYTHON_SOURCE_DIRECTORY
+      - pyenv local $PYTHON_VERSION
+      - pip install poetry
+      - poetry install
+  build:
+    commands:
+      - echo '[INFO] Running tox'
+      - poetry run tox
