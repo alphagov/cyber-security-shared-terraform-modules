@@ -44,10 +44,15 @@ variable "output_filename" {
   type        = string
 }
 
-# variable "artifact_bucket" {
-#   description = "S3 path where the artifact will be stored."
-#   type        = string
-# }
+variable "artifact_bucket" {
+  description = "S3 path where the artifact will be stored."
+  type        = string
+}
+
+variable "output_artifact_path" {
+  description = "the S3 path to store the output atrifact"
+  type        = string
+}
 
 variable "codebuild_image" {
   description = ""

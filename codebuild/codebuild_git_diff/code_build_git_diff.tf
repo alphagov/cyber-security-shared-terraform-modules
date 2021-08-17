@@ -12,8 +12,8 @@ resource "aws_codebuild_project" "code_pipeline_git_diff" {
     type                = "S3"
     name                = var.output_filename
     artifact_identifier = "git_diff_file"
-    location            = "co-cyber-codepipeline-artifact-store" #TODO : pass in as var
-    path                = "cd-images-pipeline/output-artifacts"
+    location            = var.artifact_bucket
+    path                = var.output_artifact_path 
   }
 
   cache {
