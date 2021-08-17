@@ -8,13 +8,8 @@ phases:
     commands:
       - echo outputting git diff file...
       - cd $CODEBUILD_SRC_DIR
-      - getconf ARG_MAX
-      - xargs --show-limits
+      - test="${GITHUB_PAT:0:2}" ; echo "${test}"
       - source /usr/local/bin/get_pr_changed_files_list.sh ${REPO_NAME} ${OUTPUT_FILENAME}
-  # post_build:
-  #   commands:
-  #     - echo test
-  #     - ls
 
 artifacts:
   secondary-artifacts:
