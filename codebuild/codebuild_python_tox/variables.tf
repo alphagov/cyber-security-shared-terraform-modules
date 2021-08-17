@@ -29,6 +29,16 @@ variable "pipeline_name" {
   type        = string
 }
 
+variable "python_source_directory" {
+  description = "Directory name where the Python source code is located"
+  type        = string
+}
+
+variable "python_version" {
+  description = "Python version to use"
+  type        = string
+}
+
 variable "environment" {
   description = "e.g. staging, production"
   type        = string

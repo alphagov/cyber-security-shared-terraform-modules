@@ -27,12 +27,12 @@ resource "aws_codebuild_project" "code_pipeline_python_tox" {
 
     environment_variable {
       name  = "PYTHON_SOURCE_DIRECTORY"
-      value = ""
+      value = var.python_source_directory
     }
 
     environment_variable {
       name  = "PYTHON_VERSION"
-      value = ""
+      value = var.python_version
     }
 
     environment_variable {
