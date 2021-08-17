@@ -12,6 +12,8 @@ phases:
       - source /usr/local/bin/get_pr_changed_files_list.sh ${REPO_NAME} ${OUTPUT_FILENAME}
 
 artifacts:
+  files:
+    - directory/*
   secondary-artifacts:
     git_diff_file:
       base-directory: $CODEBUILD_SRC_DIR
