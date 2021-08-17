@@ -13,7 +13,7 @@ phases:
 
 artifacts:
   secondary-artifacts:
-    git-diff-file:
+    git_diff_file:
       base-directory: $CODEBUILD_SRC_DIR
       files: 
         - ${OUTPUT_FILENAME}
