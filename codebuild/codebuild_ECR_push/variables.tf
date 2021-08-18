@@ -1,8 +1,3 @@
-variable "environment" {
-  type        = string
-  description = "Enviroment this module will be ran"
-}
-
 variable "pipeline_name" {
   type        = string
   description = "Name of the pipeline"
@@ -54,4 +49,11 @@ variable "docker_hub_password" {
   description = "The password used to authenticate with Docker Hub"
   type        = string
   # sensitive   = true # Terraform 0.14 only, unfortunately
+}
+
+variable "aws_accounts" {
+  type = map(object({
+    environment = string
+    aws_account_id = number
+  }))
 }

@@ -1,5 +1,8 @@
 resource "aws_codebuild_project" "code_pipeline_ecr_container" {
-  name        = "${var.pipeline_name}-ecr-${var.environment}"
+  
+  for_each = var.aws_accounts
+
+  name        = "${var.pipeline_name}-ecr-${each.value.environment}"
   description = "Build container and push to ECR"
 
   service_role = data.aws_iam_role.execution_role.arn
@@ -43,7 +46,7 @@ resource "aws_codebuild_project" "code_pipeline_ecr_container" {
 
     environment_variable {
       name  = "ECR_IMAGE_REPO_NAME"
-      value = var.ecr_image_repo_name
+      value = "${var.ecr_image_repo_name}-${each.value.environment}"
     }
 
     environment_variable {
@@ -53,12 +56,12 @@ resource "aws_codebuild_project" "code_pipeline_ecr_container" {
 
     environment_variable {
       name  = "AWS_ACCOUNT_ID"
-      value = var.deployment_account_id
+      value = each.value.aws_account_id
     }
 
     environment_variable {
       name  = "ROLE_NAME"
-      value = var.deployment_role_name
+      value = "${var.deployment_role_name}_${each.value.aws_account_id}"
     }
   }
 

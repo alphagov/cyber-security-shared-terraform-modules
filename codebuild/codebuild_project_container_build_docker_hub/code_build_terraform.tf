@@ -1,3 +1,7 @@
+data "aws_secretsmanager_secret" "dockerhub_creds" {
+  name = "docker_hub_credentials"
+}
+
 resource "aws_codebuild_project" "code_pipeline_container_build_docker_hub" {
   name        = "${var.pipeline_name}-dockerhub-deploy-${var.environment}"
   description = "Build and push images to dockerhub"
