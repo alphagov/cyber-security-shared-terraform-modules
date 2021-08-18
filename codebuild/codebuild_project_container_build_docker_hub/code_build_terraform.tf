@@ -15,7 +15,7 @@ resource "aws_codebuild_project" "code_pipeline_container_build_docker_hub" {
 
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = "aws/codebuild/standard:4.0"
+    image                       = var.codebuild_image
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
     privileged_mode             = true
