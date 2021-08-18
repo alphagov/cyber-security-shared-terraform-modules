@@ -13,7 +13,8 @@ phases:
       #   else
       #       BUILD=false;
       #   fi
-      - python /usr/local/bin/check_for_changed_files.py
+      - ls -la  /usr/local/bin/
+      # - python /usr/local/bin/check_for_changed_files.py
 
       # - if [ -f "$APPLY_VAR_FILE" ]; then
       #     terraform apply --auto-approve -var-file="$APPLY_VAR_FILE";
