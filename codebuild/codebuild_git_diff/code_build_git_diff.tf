@@ -64,6 +64,11 @@ resource "aws_codebuild_project" "code_pipeline_git_diff" {
       name  = "OUTPUT_FILENAME"
       value = var.output_filename
     }
+
+    environment_variable {
+      name  = "CONTEXT_FILE_LIST"
+      value = var.context_file_list
+    }
   }
 
   source {

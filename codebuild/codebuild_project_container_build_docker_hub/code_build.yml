@@ -7,28 +7,14 @@ phases:
   pre_build:
     commands:
       - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
-      # - FILE=CODEBUILD_SRC_DIR_git_diff_file/changed_files.json
-      # - if [ -f "$FILE" ]; then
-      #       BUILD=true;
-      #   else
-      #       BUILD=false;
-      #   fi
-      - ls -la  /usr/local/bin/
-      - python /usr/local/bin/check_for_changed_files.py
-
-      # - if [ -f "$APPLY_VAR_FILE" ]; then
-      #     terraform apply --auto-approve -var-file="$APPLY_VAR_FILE";
-      #   else
-      #     terraform apply --auto-approve;
-      #   fi
   build:
     commands:
       - echo Build started on `date`
-      # - echo Building the Docker image...
-      # - docker build -t $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $BUILD_CONTEXT -f $DOCKERFILE
-      # - docker tag $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG
+      - echo Building the Docker image...
+      - docker build -t $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $BUILD_CONTEXT -f $DOCKERFILE
+      - docker tag $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG
   post_build:
     commands:
       - echo Build completed on `date`
-      # - echo Pushing the Docker image...
-      # - docker push $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG
+      - echo Pushing the Docker image...
+      - docker push $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG

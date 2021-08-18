@@ -49,8 +49,3 @@ variable "context_file_list" {
   type        = string
   description = "A a json string list of file names, when changed will trigger a docker rebuild"
 }
-
-variable "codebuild_image" {
-  description = "The dockerfile in which to run codebuild"
-  type        = string
-}

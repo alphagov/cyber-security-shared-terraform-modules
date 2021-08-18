@@ -15,7 +15,7 @@ resource "aws_codebuild_project" "code_pipeline_container_build_docker_hub" {
 
   environment {
     compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = var.codebuild_image
+    image                       = "aws/codebuild/standard:4.0"
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
     privileged_mode             = true
@@ -50,10 +50,6 @@ resource "aws_codebuild_project" "code_pipeline_container_build_docker_hub" {
       value = var.docker_hub_repo
     }
 
-    environment_variable {
-      name  = "CONTEXT_FILE_LIST"
-      value = var.context_file_list
-    }
   }
 
   source {

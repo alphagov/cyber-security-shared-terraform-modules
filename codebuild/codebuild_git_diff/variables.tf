@@ -63,3 +63,8 @@ variable "docker_hub_credentials" {
   description = "The name of the Secrets Manager secret that contains the username and password for the Docker Hub"
   type        = string
 }
+
+variable "context_file_list" {
+  type        = string
+  description = "A a json string list of file names, when changed will trigger a docker rebuild"
+}
