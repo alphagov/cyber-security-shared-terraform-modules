@@ -44,3 +44,8 @@ variable "docker_hub_password" {
   description = "Dockerhub password"
   # sensitive   = true # Terraform 0.14+ only
 }
+
+variable "context_file_list" {
+  type        = list(string)
+  description = "A list of file names, when changed will trigger a docker rebuild"
+}

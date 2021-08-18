@@ -49,6 +49,11 @@ resource "aws_codebuild_project" "code_pipeline_container_build_docker_hub" {
       name  = "DOCKERHUB_REPO"
       value = var.docker_hub_repo
     }
+
+    environment_variable {
+      name  = "CONTEXT_FILE_LIST"
+      value = var.context_file_list
+    }
   }
 
   source {
