@@ -18,4 +18,4 @@ artifacts:
     git_diff_file:
       base-directory: $CODEBUILD_SRC_DIR
       files: 
-        - rebuild_task.json
+        - ${OUTPUT_FILENAME} #rebuild_task.json
