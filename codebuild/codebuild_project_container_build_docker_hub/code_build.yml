@@ -7,13 +7,12 @@ phases:
   pre_build:
     commands:
       - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
-      - FILE=CODEBUILD_SRC_DIR_git_diff_file/changed_files.json
-      - if [ -f "$FILE" ]; then
-            BUILD=true;
-        else
-            BUILD=false;
-        fi
-        echo $BUILD
+      # - FILE=CODEBUILD_SRC_DIR_git_diff_file/changed_files.json
+      # - if [ -f "$FILE" ]; then
+      #       BUILD=true;
+      #   else
+      #       BUILD=false;
+      #   fi
       - python usr/local/bin/ check_for_changed_files.py
 
       # - if [ -f "$APPLY_VAR_FILE" ]; then

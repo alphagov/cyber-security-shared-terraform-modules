@@ -47,5 +47,5 @@ variable "docker_hub_password" {
 
 variable "context_file_list" {
   type        = string
-  description = "A list of file names, when changed will trigger a docker rebuild"
+  description = "A a json string list of file names, when changed will trigger a docker rebuild"
 }
