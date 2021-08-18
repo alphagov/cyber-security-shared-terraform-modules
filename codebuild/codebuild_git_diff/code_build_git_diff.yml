@@ -1,0 +1,20 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  build:
+    commands:
+      - echo outputting git diff file...
+      - cd $CODEBUILD_SRC_DIR
+      - source /usr/local/bin/get_pr_changed_files_list.sh ${REPO_NAME} ${OUTPUT_FILENAME}
+
+artifacts:
+  files:
+    - "**/*"
+  secondary-artifacts:
+    git_diff_file:
+      base-directory: $CODEBUILD_SRC_DIR
+      files: 
+        - ${OUTPUT_FILENAME}
