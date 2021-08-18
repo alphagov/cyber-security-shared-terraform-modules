@@ -34,13 +34,12 @@ variable "dockerfile" {
   description = "Path to the dockerfile"
 }
 
-variable "docker_hub_username" {
-  type        = string
-  description = "Dockerhub Username"
+variable "docker_context" {
+  type = string
+  description = "Docker context"
 }
 
-variable "docker_hub_password" {
+variable "docker_hub_credentials" {
+  description = "The name of the Secrets Manager secret that contains the username and password for the Docker Hub"
   type        = string
-  description = "Dockerhub password"
-  # sensitive   = true # Terraform 0.14+ only
 }
