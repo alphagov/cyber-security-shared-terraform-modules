@@ -63,11 +63,6 @@ resource "aws_codebuild_project" "code_pipeline_container_build_docker_hub" {
       name  = "SOURCE_CODE_DIR"
       value = var.codebuild_src_dir
     }
-
-    environment_variable {
-      name  = "DOCKERHUB_IMAGE_TAG"
-      value = var.docker_image_tag
-    }
   }
 
   source {
