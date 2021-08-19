@@ -1,5 +1,5 @@
 resource "aws_codebuild_project" "code_pipeline_python_tox" {
-  name        = "${var.pipeline_name}-python-tox-${var.environment}"
+  name        = "${var.pipeline_name}-python-tox"
   description = "Run Python tox"
 
   service_role = data.aws_iam_role.execution_role.arn
