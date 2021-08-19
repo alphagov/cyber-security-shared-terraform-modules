@@ -51,3 +51,11 @@ variable "docker_hub_username" {
 variable "docker_hub_password" {
   type = string
 }
+
+variable "codebuild_src_dir" {
+  type = string
+}
+
+variable "docker_image_tag" {
+  type = string
+}
