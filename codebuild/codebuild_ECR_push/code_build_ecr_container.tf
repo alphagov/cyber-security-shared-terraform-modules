@@ -1,5 +1,5 @@
 resource "aws_codebuild_project" "code_pipeline_ecr_container" {
-  
+
   for_each = var.aws_accounts
 
   name        = "${var.pipeline_name}-ecr-${each.value.environment}"
@@ -18,10 +18,12 @@ resource "aws_codebuild_project" "code_pipeline_ecr_container" {
 
 
   environment {
-    compute_type                = "BUILD_GENERAL1_SMALL"
-    image                       = "aws/codebuild/standard:4.0"
-    type                        = "LINUX_CONTAINER"
-    image_pull_credentials_type = "CODEBUILD"
+    compute_type = "BUILD_GENERAL1_SMALL"
+    image        = var.codebuild_image
+    #image                       = "aws/codebuild/standard:4.0"
+    type = "LINUX_CONTAINER"
+    #image_pull_credentials_type = "CODEBUILD"
+    image_pull_credentials_type = "SERVICE_ROLE"
     privileged_mode             = true
 
     environment_variable {

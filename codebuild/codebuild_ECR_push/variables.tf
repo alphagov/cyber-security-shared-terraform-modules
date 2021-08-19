@@ -18,6 +18,11 @@ variable "codebuild_service_role_name" {
   type        = string
 }
 
+variable "codebuild_image" {
+  description = "The image that CodeBuild will use, including the tag."
+  type        = string
+}
+
 variable "build_context" {
   description = "The absolute path to folder to run docker build from."
   type        = string
