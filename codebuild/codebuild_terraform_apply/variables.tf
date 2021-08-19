@@ -54,3 +54,10 @@ variable "docker_hub_credentials" {
   description = "The name of the Secrets Manager secret that contains the username and password for the Docker Hub"
   type        = string
 }
+
+variable "aws_accounts" {
+  type = map(object({
+    environment    = string
+    aws_account_id = number
+  }))
+}
