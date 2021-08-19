@@ -55,7 +55,3 @@ variable "docker_hub_password" {
 variable "codebuild_src_dir" {
   type = string
 }
-
-variable "docker_image_tag" {
-  type = string
-}
