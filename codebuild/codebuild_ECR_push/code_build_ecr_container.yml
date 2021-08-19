@@ -4,7 +4,7 @@ phases:
   pre_build:
     commands:
       - echo Assuming role into target AWS account for deployment
-      - source sts-assume-role.sh "arn:aws:iam::${AWS_ACCOUNT_ID}:role/${ROLE_NAME}" "${AWS_DEFAULT_REGION}"
+      - . sts-assume-role.sh "arn:aws:iam::${AWS_ACCOUNT_ID}:role/${ROLE_NAME}" "${AWS_DEFAULT_REGION}"
       - aws sts get-caller-identity
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
@@ -24,8 +24,8 @@ phases:
       - echo Pushing the Docker image...
       - ECR_REPO=$(aws ecr describe-repositories --repository-names ${ECR_IMAGE_REPO_NAME} 2>&1)
       - if echo ${ECR_REPO} | grep -q RepositoryNotFoundException; then
-          aws ecr create-repository --repository-name ${ECR_IMAGE_REPO_NAME};
+        aws ecr create-repository --repository-name ${ECR_IMAGE_REPO_NAME};
         else
-          echo Repository already exists, pushing image...;
+        echo Repository already exists, pushing image...;
         fi
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_IMAGE_REPO_NAME}:${ECR_IMAGE_TAG}
