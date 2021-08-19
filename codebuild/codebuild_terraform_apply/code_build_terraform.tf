@@ -1,5 +1,8 @@
 resource "aws_codebuild_project" "code_pipeline_terraform" {
-  name        = "${var.pipeline_name}-terraform-${var.environment}"
+
+  for_each = var.aws_accounts
+
+  name        = "${var.pipeline_name}-terraform-${each.value.environment}"
   description = "Run terraform validate and then terraform apply"
 
   service_role = data.aws_iam_role.execution_role.arn
@@ -27,7 +30,7 @@ resource "aws_codebuild_project" "code_pipeline_terraform" {
 
     environment_variable {
       name  = "AWS_ACCOUNT_ID"
-      value = var.deployment_account_id
+      value = each.value.aws_account_id
     }
 
     environment_variable {
@@ -37,7 +40,7 @@ resource "aws_codebuild_project" "code_pipeline_terraform" {
 
     environment_variable {
       name  = "ROLE_NAME"
-      value = var.deployment_role_name
+      value = "${var.deployment_role_name}_${each.value.aws_account_id}"
     }
 
     environment_variable {

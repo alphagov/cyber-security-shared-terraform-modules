@@ -3,10 +3,10 @@ variable "region_name" {
   default = "eu-west-2"
 }
 
-variable "deployment_account_id" {
-  description = "the account into which the terraform will be deployed"
-  type        = string
-}
+# variable "deployment_account_id" {
+#   description = "the account into which the terraform will be deployed"
+#   type        = string
+# }
 
 variable "deployment_role_name" {
   description = "the role used to deploy the terraform"
@@ -45,10 +45,10 @@ variable "pipeline_name" {
   type        = string
 }
 
-variable "environment" {
-  description = "e.g. staging, production"
-  type        = string
-}
+# variable "environment" {
+#   description = "e.g. staging, production"
+#   type        = string
+# }
 
 variable "docker_hub_credentials" {
   description = "The name of the Secrets Manager secret that contains the username and password for the Docker Hub"
