@@ -29,10 +29,10 @@ resource "aws_codebuild_project" "code_pipeline_container_build_docker_hub" {
       value = var.image_tag
     }
 
-    environment_variable {
-      name  = "BUILD_CONTEXT"
-      value = var.build_context
-    }
+    # environment_variable {
+    #   name  = "BUILD_CONTEXT"
+    #   value = var.build_context
+    # }
 
     environment_variable {
       name  = "DOCKERFILE"

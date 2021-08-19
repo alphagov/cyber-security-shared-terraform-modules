@@ -12,7 +12,7 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image...
       - cd $SOURCE_CODE_DIR
-      - docker build -t $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $BUILD_CONTEXT -f $DOCKERFILE
+      - docker build -t $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $DOCKERHUB_CONTEXT -f $DOCKERFILE
       - docker tag $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG
   post_build:
     commands:

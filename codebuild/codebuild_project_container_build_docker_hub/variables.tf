@@ -9,10 +9,10 @@ variable "image_tag" {
   default     = "latest"
 }
 
-variable "build_context" {
-  type        = string
-  description = "Path to the folder to run docker build from"
-}
+# variable "build_context" {
+#   type        = string
+#   description = "Path to the folder to run docker build from"
+# }
 
 variable "pipeline_name" {
   type        = string
