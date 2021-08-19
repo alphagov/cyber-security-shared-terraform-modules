@@ -60,7 +60,7 @@ resource "aws_codebuild_project" "code_pipeline_container_build_docker_hub" {
     }
 
     environment_variable {
-      name  = "CODEBUILD_SRC_DIR"
+      name  = "SOURCE_CODE_DIR"
       value = var.codebuild_src_dir
     }
 
