@@ -43,3 +43,11 @@ variable "docker_hub_credentials" {
   description = "The name of the Secrets Manager secret that contains the username and password for the Docker Hub"
   type        = string
 }
+
+variable "docker_hub_username" {
+  type = string
+}
+
+variable "docker_hub_password" {
+  type = string
+}
