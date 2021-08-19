@@ -41,14 +41,12 @@ resource "aws_codebuild_project" "code_pipeline_container_build_docker_hub" {
 
     environment_variable {
       name  = "DOCKERHUB_USERNAME"
-      value = local.dockerhub_creds.username
-      type  = "SECRETS_MANAGER"
+      value = var.docker_hub_username
     }
 
     environment_variable {
       name  = "DOCKERHUB_PASSWORD"
-      value = local.dockerhub_creds.password
-      type  = "SECRETS_MANAGER"
+      value = var.docker_hub_password
     }
 
     environment_variable {
