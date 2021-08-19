@@ -8,11 +8,6 @@ variable "dockerfile" {
   description = "Dockerfile to be used to build image"
 }
 
-# variable "deployment_account_id" {
-#   description = "The AWS account id where you are deploying to ECR image to."
-#   type        = string
-# }
-
 variable "deployment_role_name" {
   description = "The name of the role used to deploy the ECR image."
   type        = string
