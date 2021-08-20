@@ -1,0 +1,19 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  build:
+    commands:
+      - echo '[INFO] Reading artifacts...'
+      - pwd
+      - ls $CODEBUILD_SRC_DIR_changed_files
+      - cd $CODEBUILD_SRC_DIR_changed_files
+      - files=$(echo changed_files.json | jq "[.[] | select(test(\"$IF_PATH\"))] | length")
+      - if [[ $files -gt 0 ]]; then echo "$IF_PATH files changed" else echo "$IF_PATH files not changed" fi
+
+artifacts:
+  name: TerraformPlanArtifacts
+  discard-paths: no
+  base-directory: /opt

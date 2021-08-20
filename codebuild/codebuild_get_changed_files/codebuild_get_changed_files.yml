@@ -1,0 +1,21 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  build:
+    commands:
+      - echo '[INFO] Reading artifacts...'
+      - pwd
+      - ls
+      - cd $TERRAFORM_DIR
+      - ls
+      - ./github_rest_get_pr_changed_files_list.sh $REPO_NAME /opt/changed_files.json
+
+artifacts:
+  name: ChangedFiles
+  files:
+    - changed_files.json
+  discard-paths: no
+  base-directory: /opt
