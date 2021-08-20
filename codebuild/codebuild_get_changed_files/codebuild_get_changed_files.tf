@@ -49,7 +49,7 @@ resource "aws_codebuild_project" "code_pipeline_get_changed_files" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = file("${path.module}/code-build-get-changed-files.yml")
+    buildspec = file("${path.module}/codebuild_get_changed_files.yml")
   }
 
 }
