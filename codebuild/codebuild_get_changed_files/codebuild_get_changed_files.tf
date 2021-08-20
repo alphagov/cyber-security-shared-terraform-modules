@@ -3,7 +3,7 @@ resource "aws_codebuild_project" "code_pipeline_get_changed_files" {
   name        = "code-pipeline-get-changed-files"
   description = "Get changed files into artifact store"
 
-  service_role = data.aws_iam_role.pipeline_role.arn
+  service_role = data.aws_iam_role.execution_role.arn
 
   artifacts {
     type = "CODEPIPELINE"
