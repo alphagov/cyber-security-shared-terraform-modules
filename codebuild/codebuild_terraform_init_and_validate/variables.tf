@@ -14,8 +14,8 @@ variable "deployment_role_name" {
 }
 
 variable "sts_assume_role_duration" {
-  description "duration for STS AssumeRole"
-  type = number
+  description = "duration for STS AssumeRole"
+  type        = number
 }
 
 variable "terraform_directory" {
