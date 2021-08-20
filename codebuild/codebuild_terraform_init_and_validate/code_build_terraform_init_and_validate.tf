@@ -2,7 +2,7 @@ resource "aws_codebuild_project" "code_pipeline_terraform_init_and_validate" {
 
   for_each = var.aws_accounts
 
-  name        = "${var.pipeline_name}-terraform-${each.value.environment}"
+  name        = "${var.pipeline_name}-terraform-init-${each.value.environment}"
   description = "Run terraform init and validate"
 
   service_role = data.aws_iam_role.execution_role.arn

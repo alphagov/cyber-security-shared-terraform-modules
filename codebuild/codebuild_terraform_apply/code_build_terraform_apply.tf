@@ -2,7 +2,7 @@ resource "aws_codebuild_project" "code_pipeline_terraform_apply" {
 
   for_each = var.aws_accounts
 
-  name        = "${var.pipeline_name}-terraform-${each.value.environment}"
+  name        = "${var.pipeline_name}-terraform-apply-${each.value.environment}"
   description = "Run Terraform apply"
 
   service_role = data.aws_iam_role.execution_role.arn
