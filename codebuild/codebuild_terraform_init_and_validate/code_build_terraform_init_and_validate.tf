@@ -63,11 +63,6 @@ resource "aws_codebuild_project" "code_pipeline_terraform_init_and_validate" {
       name  = "TERRAFORM_DIRECTORY"
       value = var.terraform_directory
     }
-
-    environment_variable {
-      name  = "POST_TERRAFORM_COMMAND"
-      value = var.post_terraform_command
-    }
   }
 
   source {
