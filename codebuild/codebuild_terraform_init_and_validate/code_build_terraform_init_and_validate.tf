@@ -61,7 +61,7 @@ resource "aws_codebuild_project" "code_pipeline_terraform_init_and_validate" {
 
     environment_variable {
       name  = "TERRAFORM_DIRECTORY"
-      value = var.terraform_directory
+      value = "${var.terraform_directory}/${each.value.aws_account_id}"
     }
   }
 
