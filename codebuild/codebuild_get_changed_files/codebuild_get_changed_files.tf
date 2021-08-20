@@ -1,4 +1,5 @@
 resource "aws_codebuild_project" "code_pipeline_get_changed_files" {
+
   name        = "code-pipeline-get-changed-files"
   description = "Get changed files into artifact store"
 
