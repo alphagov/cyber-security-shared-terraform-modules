@@ -68,6 +68,11 @@ resource "aws_codebuild_project" "code_pipeline_terraform_apply" {
       name  = "POST_TERRAFORM_APPLY_COMMAND"
       value = var.post_terraform_apply_command
     }
+
+     environment_variable {
+      name  = "OUTPUT_DIR"
+      value = var.output_dir
+    }
   }
 
   source {

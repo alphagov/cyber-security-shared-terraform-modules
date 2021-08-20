@@ -6,21 +6,23 @@ env:
 phases:
   pre_build:
     commands:
-      # - pre_build commands to go here
+      - mkdir $OUTPUT_DIR
   build:
     commands:
       - echo '[INFO] Assuming TF Deployer IAM role...'
       - role_arn="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
       - source /usr/local/bin/sts-assume-role.sh "$role_arn" "$AWS_DEFAULT_REGION" $STS_ASSUME_ROLE_DURATION
-      - if [ -f "$BACKEND_VAR_FILE" ]; then
-        terraform init -backend="$BACKEND_VAR_FILE";
+      - if [ -f "$APPLY_VAR_FILE" ]; then
+          terraform apply --auto-approve -var-file="$APPLY_VAR_FILE";
         else
-        terraform init;
+          terraform apply --auto-approve;
         fi
-      # - if [ -f "$APPLY_VAR_FILE" ]; then
-      #     terraform apply --auto-approve -var-file="$APPLY_VAR_FILE";
-      #   else
-      #     terraform apply --auto-approve;
-      #   fi
+  post_build:
+    commands:
       - if [ -f "$POST_TERRAFORM_COMMAND"]; then
-        $POST_TERRAFORM_COMMAND
+          $POST_TERRAFORM_COMMAND
+      - ls $OUTPUT_DIR
+artifacts:
+  name: runTasks
+  files:
+    - $OUTPUT_DIR/*
