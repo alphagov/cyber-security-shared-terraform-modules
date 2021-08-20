@@ -35,12 +35,6 @@ variable "apply_var_file" {
   default     = ""
 }
 
-variable "post_terraform_apply_command" {
-  description = "(Optional) command to run post Terraform apply"
-  type        = string
-  default     = ""
-}
-
 variable "codebuild_service_role_name" {
   description = "the role code build uses to access other AWS services"
   type        = string

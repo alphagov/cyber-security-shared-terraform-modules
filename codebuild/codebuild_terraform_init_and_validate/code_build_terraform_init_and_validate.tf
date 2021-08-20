@@ -1,9 +1,9 @@
-resource "aws_codebuild_project" "code_pipeline_terraform" {
+resource "aws_codebuild_project" "code_pipeline_terraform_init_and_validate" {
 
   for_each = var.aws_accounts
 
   name        = "${var.pipeline_name}-terraform-${each.value.environment}"
-  description = "Run terraform validate and then terraform apply"
+  description = "Run terraform init and validate"
 
   service_role = data.aws_iam_role.execution_role.arn
 
@@ -44,6 +44,12 @@ resource "aws_codebuild_project" "code_pipeline_terraform" {
     }
 
     environment_variable {
+      name  = "STS_ASSUME_ROLE_DURATION"
+      value = var.sts_assume_role_duration
+    }
+
+
+    environment_variable {
       name  = "BACKEND_VAR_FILE"
       value = var.backend_var_file
     }
@@ -57,10 +63,15 @@ resource "aws_codebuild_project" "code_pipeline_terraform" {
       name  = "TERRAFORM_DIRECTORY"
       value = var.terraform_directory
     }
+
+    environment_variable {
+      name  = "POST_TERRAFORM_COMMAND"
+      value = var.post_terraform_command
+    }
   }
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = file("${path.module}/code_build_terraform.yml")
+    buildspec = file("${path.module}/code_build_terraform_init_and_validate.yml")
   }
 }
