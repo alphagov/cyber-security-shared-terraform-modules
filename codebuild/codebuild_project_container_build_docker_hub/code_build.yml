@@ -7,11 +7,12 @@ phases:
   pre_build:
     commands:
       - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+      - ls $CODEBUILD_SRC_DIR_git_diff_file
       - REBUILD_FILE=$CODEBUILD_SRC_DIR_git_diff_file
       - if [ -f "$REBUILD_FILE" ]; then
             BUILD=$(cat $REBUILD_FILE);
         else
-            echo Rebuild file note found, defaulitng to true...;
+            echo Rebuild file not found, defaulting to true...;
             BUILD=true;
         fi
 
@@ -26,8 +27,8 @@ phases:
   post_build:
     commands:
       - if $BUILD; then
-          echo Build completed on `date`
-          echo Pushing the Docker image...
+          echo Build completed on `date`;
+          echo Pushing the Docker image...;
         else
-          echo Build set to false, not pushing image
+          echo Build set to false, not pushing image;
         fi
