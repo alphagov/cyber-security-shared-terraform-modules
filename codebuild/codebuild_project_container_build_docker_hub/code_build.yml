@@ -8,7 +8,7 @@ phases:
     commands:
       - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       - ls $CODEBUILD_SRC_DIR_git_diff_file
-      - REBUILD_FILE=$CODEBUILD_SRC_DIR_git_diff_file
+      - REBUILD_FILE="${CODEBUILD_SRC_DIR_git_diff_file}/rebuild_task.json"
       - if [ -f "$REBUILD_FILE" ]; then
             BUILD=$(cat $REBUILD_FILE);
         else
