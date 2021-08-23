@@ -12,7 +12,7 @@ phases:
             BUILD=$(cat $REBUILD_FILE);
         else
             echo Rebuild file note found, defaulitng to true...;
-            BUILD=true
+            BUILD=true;
         fi
 
   build:
