@@ -9,21 +9,21 @@ phases:
       - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       - REBUILD_FILE=$CODEBUILD_SRC_DIR_git_diff_file
       - if [ -f "$REBUILD_FILE" ]; then
-            BUILD=$(cat $REBUILD_FILE)
+            BUILD=$(cat $REBUILD_FILE);
         else
-            echo Rebuild file note found, defaulitng to true...
+            echo Rebuild file note found, defaulitng to true...;
             BUILD=true
         fi
 
   build:
     commands:
       - if $BUILD; then
-          echo Build started on `date`
-          echo Building the Docker image...
-          docker build -t $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $BUILD_CONTEXT -f $DOCKERFILE
-          docker tag $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG
+          echo Build started on `date`;
+          echo Building the Docker image...;
+          docker build -t $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $BUILD_CONTEXT -f $DOCKERFILE;
+          docker tag $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG;
         else
-          echo Build set to false, not rebuilding image
+          echo Build set to false, not rebuilding image;
         fi
   post_build:
     commands:
