@@ -20,8 +20,6 @@ phases:
       - if $BUILD; then
           echo Build started on `date`;
           echo Building the Docker image...;
-          # docker build -t $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $BUILD_CONTEXT -f $DOCKERFILE;
-          # docker tag $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG;
         else
           echo Build set to false, not rebuilding image;
         fi
@@ -30,7 +28,6 @@ phases:
       - if $BUILD; then
           echo Build completed on `date`
           echo Pushing the Docker image...
-          # docker push $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG
         else
           echo Build set to false, not pushing image
         fi
