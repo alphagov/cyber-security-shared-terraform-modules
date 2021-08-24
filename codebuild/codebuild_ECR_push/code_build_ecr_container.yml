@@ -34,7 +34,7 @@ phases:
         fi
   post_build:
     commands:
-      - if
+      - if $TRIGGER_BUILD; then
           aws sts get-caller-identity;
           echo Build completed on `date`;
           echo Pushing the Docker image...;
