@@ -14,22 +14,37 @@ phases:
       - export AWS_SECRET_ACCESS_KEY=`echo "${TF_DEPLOYER_ROLE}" | jq -r '.Credentials.SecretAccessKey'`
       - export AWS_SESSION_TOKEN=`echo "${TF_DEPLOYER_ROLE}" | jq -r '.Credentials.SessionToken'`
       - aws sts get-caller-identity
+      - REBUILD_FILE="${CODEBUILD_SRC_DIR_rebuild_task}/rebuild_task.json"
+      - if [ -f "$REBUILD_FILE" ]; then
+            TRIGGER_BUILD=$(cat $REBUILD_FILE);
+        else
+            echo Rebuild file not found, defaulting to true...;
+            TRIGGER_BUILD=true;
+        fi
   build:
     commands:
-      - echo Build started on `date`
-      - echo Building the Docker image...
-      - cd $CODEBUILD_SRC_DIR
-      - docker build -t ${ECR_IMAGE_REPO_NAME}:${ECR_IMAGE_TAG} $ECR_CONTEXT -f $ECR_DOCKERFILE
-      - docker tag ${ECR_IMAGE_REPO_NAME}:${ECR_IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_IMAGE_REPO_NAME}:${ECR_IMAGE_TAG}
+      - if $TRIGGER_BUILD; then
+          echo Build started on `date`;
+          echo Building the Docker image...;
+          cd $CODEBUILD_SRC_DIR;
+          docker build -t ${ECR_IMAGE_REPO_NAME}:${ECR_IMAGE_TAG} $ECR_CONTEXT -f $ECR_DOCKERFILE;
+          docker tag ${ECR_IMAGE_REPO_NAME}:${ECR_IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_IMAGE_REPO_NAME}:${ECR_IMAGE_TAG};
+        else
+          echo trigger build set to false, not rebuilding image;
+        fi
   post_build:
     commands:
-      - aws sts get-caller-identity
-      - echo Build completed on `date`
-      - echo Pushing the Docker image...
-      - ECR_REPO=$(aws ecr describe-repositories --repository-names ${ECR_IMAGE_REPO_NAME} 2>&1)
-      - if echo ${ECR_REPO} | grep -q RepositoryNotFoundException; then
-          aws ecr create-repository --repository-name ${ECR_IMAGE_REPO_NAME};
+      - if
+          aws sts get-caller-identity;
+          echo Build completed on `date`;
+          echo Pushing the Docker image...;
+          ECR_REPO=$(aws ecr describe-repositories --repository-names ${ECR_IMAGE_REPO_NAME} 2>&1);
+          if echo ${ECR_REPO} | grep -q RepositoryNotFoundException; then
+            aws ecr create-repository --repository-name ${ECR_IMAGE_REPO_NAME};
+            else
+              echo Repository already exists, pushing image...;
+            fi
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_IMAGE_REPO_NAME}:${ECR_IMAGE_TAG};
         else
-          echo Repository already exists, pushing image...;
+          echo Build set to false, not pushing image;
         fi
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_IMAGE_REPO_NAME}:${ECR_IMAGE_TAG}
