@@ -43,7 +43,7 @@ phases:
             aws ecr create-repository --repository-name ${ECR_IMAGE_REPO_NAME};
             else
               echo Repository already exists, pushing image...;
-            fi
+            fi;
           docker push $AWS_ACCOUNT_ID.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_IMAGE_REPO_NAME}:${ECR_IMAGE_TAG};
         else
           echo Build set to false, not pushing image;
