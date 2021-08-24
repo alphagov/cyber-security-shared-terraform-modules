@@ -17,12 +17,20 @@ phases:
 
   build:
     commands:
-      - echo Build started on `date`;
-      - echo Building the Docker image...;
-      - docker build -t $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $BUILD_CONTEXT -f $DOCKERFILE;
-      - docker tag $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG;
+      - if $TRIGGER_BUILD; then
+          echo Build started on `date`;
+          echo Building the Docker image...;
+          docker build -t $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $BUILD_CONTEXT -f $DOCKERFILE;
+          docker tag $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG;
+        else
+          echo trigger build set to false, not rebuilding image;
+        fi
   post_build:
     commands:
-      - echo Build completed on `date`;
-      - echo Pushing the Docker image...;
-      - docker push $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG;
+      - if $TRIGGER_BUILD; then
+          echo Build completed on `date`;
+          echo Pushing the Docker image...;
+          docker push $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG;
+        else
+          echo Build set to false, not pushing image;
+        fi
