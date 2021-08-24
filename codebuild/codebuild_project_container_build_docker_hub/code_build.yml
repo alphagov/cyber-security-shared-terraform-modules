@@ -7,7 +7,7 @@ phases:
   pre_build:
     commands:
       - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
-      - REBUILD_FILE="${CODEBUILD_SRC_DIR_git_diff_file}/rebuild_task.json"
+      - REBUILD_FILE="${CODEBUILD_SRC_DIR_rebuild_task}/rebuild_task.json"
       - if [ -f "$REBUILD_FILE" ]; then
             TRIGGER_BUILD=$(cat $REBUILD_FILE);
         else

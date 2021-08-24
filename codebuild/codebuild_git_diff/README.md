@@ -43,5 +43,5 @@ git repo. This should be jsonencoded, with quotes escaped (see example above).
 
 ## Outputs
 This module outputs a file as an artifact to be passed to the next CodeBuild task. This can be found at
-CODEBUILD_SRC_DIR_git_diff_file/rebuild_task.json. The file contains a boolean, which if True should trigger 
+CODEBUILD_SRC_DIR_rebuild_task/rebuild_task.json. The file contains a boolean, which if True should trigger 
 a rebuild.

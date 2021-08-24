@@ -15,7 +15,7 @@ artifacts:
   files:
     - "**/*"
   secondary-artifacts:
-    git_diff_file:
+    rebuild_task:
       base-directory: $CODEBUILD_SRC_DIR
       files: 
         - rebuild_task.json
