@@ -44,4 +44,3 @@ variable "docker_hub_password" {
   description = "Dockerhub password"
   # sensitive   = true # Terraform 0.14+ only
 }
-
