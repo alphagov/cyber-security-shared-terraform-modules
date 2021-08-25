@@ -7,17 +7,14 @@ phases:
   pre_build:
     commands:
       - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
-      - REBUILD_FILE="${CODEBUILD_SRC_DIR_rebuild_task}/rebuild_task.json"
-      - if [ -f "$REBUILD_FILE" ]; then
-            TRIGGER_BUILD=$(cat $REBUILD_FILE);
-        else
-            echo Rebuild file not found, defaulting to true...;
-            TRIGGER_BUILD=true;
-        fi
+      - ACTIONS_REQUIRED="${CODEBUILD_SRC_DIR_actions_required}"
+      - echo $ACTIONS_REQUIRED
+      - TRIGGER_BUILD=$(jq --arg ACTION_NAME "$ACTION_NAME" '.[] | select(.action ==$ACTION_NAME).required' $ACTIONS_REQUIRED)
+      
 
   build:
     commands:
-      - if $TRIGGER_BUILD; then
+      - if $CHECK_TRIGGER && $TRIGGER_BUILD; then
           echo Build started on `date`;
           echo Building the Docker image...;
           docker build -t $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $BUILD_CONTEXT -f $DOCKERFILE;
@@ -27,7 +24,7 @@ phases:
         fi
   post_build:
     commands:
-      - if $TRIGGER_BUILD; then
+      - if $CHECK_TRIGGER && $TRIGGER_BUILD; then
           echo Build completed on `date`;
           echo Pushing the Docker image...;
           docker push $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG;
