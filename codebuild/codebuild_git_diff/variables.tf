@@ -39,11 +39,6 @@ variable "repo_name" {
   type        = string
 }
 
-variable "output_filename" {
-  description = "The relative file where you want to save the git diff information."
-  type        = string
-}
-
 variable "artifact_bucket" {
   description = "S3 path where the artifact will be stored."
   type        = string
@@ -62,9 +57,4 @@ variable "codebuild_image" {
 variable "docker_hub_credentials" {
   description = "The name of the Secrets Manager secret that contains the username and password for the Docker Hub"
   type        = string
-}
-
-variable "context_file_list" {
-  type        = string
-  description = "A json string list of file names, which when changed will trigger a docker rebuild"
 }

@@ -10,7 +10,7 @@ resource "aws_codebuild_project" "code_pipeline_git_diff" {
 
   secondary_artifacts {
     type                = "S3"
-    name                = var.output_filename
+    name                = "changed_files.json"
     artifact_identifier = "rebuild_task"
     location            = var.artifact_bucket
     path                = var.output_artifact_path 
@@ -60,15 +60,6 @@ resource "aws_codebuild_project" "code_pipeline_git_diff" {
       value = var.repo_name
     }
 
-     environment_variable {
-      name  = "OUTPUT_FILENAME"
-      value = var.output_filename
-    }
-
-    environment_variable {
-      name  = "CONTEXT_FILE_LIST"
-      value = var.context_file_list
-    }
   }
 
   source {

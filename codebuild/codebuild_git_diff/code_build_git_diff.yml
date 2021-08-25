@@ -8,14 +8,13 @@ phases:
     commands:
       - echo outputting git diff file...
       - cd $CODEBUILD_SRC_DIR
-      - source /usr/local/bin/get_pr_changed_files_list.sh ${REPO_NAME} ${OUTPUT_FILENAME}
-      - python /usr/local/bin/check_for_changed_files.py
+      - source /usr/local/bin/get_pr_changed_files_list.sh ${REPO_NAME} changed_files.json
 
 artifacts:
   files:
     - "**/*"
   secondary-artifacts:
-    rebuild_task:
+    changed_files:
       base-directory: $CODEBUILD_SRC_DIR
       files: 
-        - rebuild_task.json
+        - changed_files.json
