@@ -1,0 +1,20 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  build:
+    commands:
+      - echo getting required actions...
+      - cd $CODEBUILD_SRC_DIR
+      - python /usr/local/bin/get_actions_required.py
+
+artifacts:
+  files:
+    - "**/*"
+  secondary-artifacts:
+    actions_required:
+      base-directory: $CODEBUILD_SRC_DIR
+      files: 
+        - actions_required.json
