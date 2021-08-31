@@ -11,12 +11,17 @@ phases:
       - echo $ACTIONS_REQUIRED
       - echo $ACTION_NAME
       - ls $ACTIONS_REQUIRED
-      - cat "${ACTIONS_REQUIRED}/actions_requires.json"
-      - TRIGGER_BUILD=$(jq --arg ACTION_NAME "$ACTION_NAME" '.[] | select(.action ==$ACTION_NAME).required' $ACTIONS_REQUIRED)
-      
+      - ls $CODEBUILD_SRC_DIR
+      - cat "${ACTIONS_REQUIRED}/actions_required.json"
+      - if [ -n "$CHECK_TRIGGER" ]; then 
+          TRIGGER_BUILD=$(jq --arg ACTION_NAME "$ACTION_NAME" '.[] | select(.action ==$ACTION_NAME).required' $ACTIONS_REQUIRED); 
+        else 
+          echo "CHECK_TRIGGER not supplied, defaulting to true..";
+          TRIGGER_BUILD=true; 
+        fi
   build:
     commands:
-      - if $CHECK_TRIGGER && $TRIGGER_BUILD; then
+      - if $TRIGGER_BUILD; then
           echo Build started on `date`;
           echo Building the Docker image...;
           docker build -t $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $BUILD_CONTEXT -f $DOCKERFILE;
