@@ -11,7 +11,7 @@ resource "aws_codebuild_project" "code_pipeline_get_actions_required" {
   secondary_artifacts {
     type                = "S3"
     name                = "actions_required.json"
-    artifact_identifier = "rebuild_task"
+    artifact_identifier = "actions_required"
     location            = var.artifact_bucket
     path                = var.output_artifact_path 
   }

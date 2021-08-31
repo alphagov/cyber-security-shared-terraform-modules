@@ -11,7 +11,7 @@ resource "aws_codebuild_project" "code_pipeline_git_diff" {
   secondary_artifacts {
     type                = "S3"
     name                = "changed_files.json"
-    artifact_identifier = "rebuild_task"
+    artifact_identifier = "changed_files"
     location            = var.artifact_bucket
     path                = var.output_artifact_path 
   }
