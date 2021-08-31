@@ -8,6 +8,7 @@ phases:
     commands:
       - echo getting required actions...
       - cd $CODEBUILD_SRC_DIR
+      - ls
       - python /usr/local/bin/get_actions_required.py
 
 artifacts:
