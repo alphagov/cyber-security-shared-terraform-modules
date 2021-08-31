@@ -9,9 +9,11 @@ phases:
       - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       - ACTIONS_REQUIRED="${CODEBUILD_SRC_DIR_actions_required}"
       - echo $ACTIONS_REQUIRED
+      - echo $ACTION_NAME
+      - ls $ACTIONS_REQUIRED
+      - cat "${ACTIONS_REQUIRED}/actions_requires.json"
       - TRIGGER_BUILD=$(jq --arg ACTION_NAME "$ACTION_NAME" '.[] | select(.action ==$ACTION_NAME).required' $ACTIONS_REQUIRED)
       
-
   build:
     commands:
       - if $CHECK_TRIGGER && $TRIGGER_BUILD; then
