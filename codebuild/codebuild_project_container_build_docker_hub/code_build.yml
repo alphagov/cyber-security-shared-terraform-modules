@@ -7,14 +7,30 @@ phases:
   pre_build:
     commands:
       - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+      - ACTIONS_REQUIRED="${CODEBUILD_SRC_DIR_actions_required}"
+      - cat "${ACTIONS_REQUIRED}/actions_required.json"
+      - if [ -n "$CHECK_TRIGGER" ]; then 
+          TRIGGER_BUILD=$(jq --arg ACTION_NAME "$ACTION_NAME" '.[] | select(.action ==$ACTION_NAME).required' $ACTIONS_REQUIRED); 
+        else 
+          echo "CHECK_TRIGGER not supplied, defaulting to true..";
+          TRIGGER_BUILD=true; 
+        fi
   build:
     commands:
-      - echo Build started on `date`
-      - echo Building the Docker image...
-      - docker build -t $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $BUILD_CONTEXT -f $DOCKERFILE
-      - docker tag $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG
+      - if $TRIGGER_BUILD; then
+          echo Build started on `date`;
+          echo Building the Docker image...;
+          docker build -t $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $BUILD_CONTEXT -f $DOCKERFILE;
+          docker tag $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG;
+        else
+          echo trigger build set to false, not rebuilding image;
+        fi
   post_build:
     commands:
-      - echo Build completed on `date`
-      - echo Pushing the Docker image...
-      - docker push $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG
+      - if $TRIGGER_BUILD; then
+          echo Build completed on `date`;
+          echo Pushing the Docker image...;
+          docker push $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG;
+        else
+          echo Build set to false, not pushing image;
+        fi
