@@ -39,6 +39,12 @@ resource "aws_codebuild_project" "code_pipeline_get_actions_required" {
       value = var.deployment_role_name
     }
 
+    environment_variable {
+      name  = "ACTION_TRIGGERS"
+      value = var.action_triggers
+    }
+
+
   }
 
   source {
