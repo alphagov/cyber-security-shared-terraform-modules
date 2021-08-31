@@ -9,9 +9,8 @@ phases:
       - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       - ACTIONS_REQUIRED="${CODEBUILD_SRC_DIR_actions_required}"
       - cat "${ACTIONS_REQUIRED}/actions_required.json"
-      - if [ -n "$CHECK_TRIGGER" ]; then 
-          echo "check trigger exists";
-          TRIGGER_BUILD=false;
+      - if [ -n "$CHECK_TRIGGER" ]; then
+          TRIGGER_BUILD=$(jq --arg ACTION_NAME "$ACTION_NAME" '.[] | select(.action ==$ACTION_NAME).required' $ACTIONS_REQUIRED); 
         else 
           echo "CHECK_TRIGGER not supplied, defaulting to true..";
           TRIGGER_BUILD=true; 
