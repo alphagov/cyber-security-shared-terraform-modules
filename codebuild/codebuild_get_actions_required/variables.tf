@@ -23,22 +23,6 @@ variable "codebuild_service_role_name" {
   type        = string
 }
 
-variable "github_pat" {
-  description = "The pat token to authorise your github account."
-  type        = string
-}
-
-variable "github_org" {
-  description = "The github org where your repo is."
-  type        = string
-  default     = "alphagov"
-}
-
-variable "repo_name" {
-  description = "The repository on github."
-  type        = string
-}
-
 variable "artifact_bucket" {
   description = "S3 path where the artifact will be stored."
   type        = string
@@ -50,11 +34,11 @@ variable "output_artifact_path" {
 }
 
 variable "codebuild_image" {
-  description = ""
+  description = "the image in which you want to run the codebuild task"
   type        = string
 }
 
-variable "docker_hub_credentials" {
-  description = "The name of the Secrets Manager secret that contains the username and password for the Docker Hub"
-  type        = string
+variable "action_triggers" {
+    description = "the path to the action_triggers.json file in your repo, relative to the root of the repo."
+    type        = string
 }

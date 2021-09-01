@@ -1,6 +1,6 @@
-resource "aws_codebuild_project" "code_pipeline_git_diff" {
-  name        = "${var.pipeline_name}-git-diff-${var.environment}"
-  description = "Get diff files for a given repository and store as artifact."
+resource "aws_codebuild_project" "code_pipeline_get_actions_required" {
+  name        = "${var.pipeline_name}-get-actions-required-${var.environment}"
+  description = "Reads changed_files.json and actions_triggers.json to produce actions_required.json."
 
   service_role = data.aws_iam_role.execution_role.arn
 
@@ -10,8 +10,8 @@ resource "aws_codebuild_project" "code_pipeline_git_diff" {
 
   secondary_artifacts {
     type                = "S3"
-    name                = "changed_files.json"
-    artifact_identifier = "changed_files"
+    name                = "actions_required.json"
+    artifact_identifier = "actions_required"
     location            = var.artifact_bucket
     path                = var.output_artifact_path 
   }
@@ -29,11 +29,6 @@ resource "aws_codebuild_project" "code_pipeline_git_diff" {
     image_pull_credentials_type = "SERVICE_ROLE"
     privileged_mode             = false
 
-    registry_credential {
-        credential_provider = "SECRETS_MANAGER"
-        credential          = data.aws_secretsmanager_secret.dockerhub_creds.arn
-      }
-  
     environment_variable {
       name  = "AWS_ACCOUNT_ID"
       value = var.deployment_account_id
@@ -44,26 +39,14 @@ resource "aws_codebuild_project" "code_pipeline_git_diff" {
       value = var.deployment_role_name
     }
 
-     environment_variable {
-      name  = "GITHUB_PAT"
-      value = var.github_pat
-      type  = "PARAMETER_STORE"
-    }
-
     environment_variable {
-      name  = "GITHUB_ORG"
-      value = var.github_org
+      name  = "ACTION_TRIGGERS"
+      value = var.action_triggers
     }
-
-    environment_variable {
-      name  = "REPO_NAME"
-      value = var.repo_name
-    }
-
   }
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = file("${path.module}/code_build_git_diff.yml")
+    buildspec = file("${path.module}/codebuild_get_actions_required.yml")
   }
 }

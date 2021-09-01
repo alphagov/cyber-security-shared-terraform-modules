@@ -8,13 +8,13 @@ phases:
     commands:
       - echo outputting git diff file...
       - cd $CODEBUILD_SRC_DIR
-      - source /usr/local/bin/get_pr_changed_files_list.sh ${REPO_NAME} ${OUTPUT_FILENAME}
+      - source /usr/local/bin/get_pr_changed_files_list.sh ${REPO_NAME} changed_files.json
 
 artifacts:
   files:
     - "**/*"
   secondary-artifacts:
-    git_diff_file:
+    changed_files:
       base-directory: $CODEBUILD_SRC_DIR
       files: 
-        - ${OUTPUT_FILENAME}
+        - changed_files.json
