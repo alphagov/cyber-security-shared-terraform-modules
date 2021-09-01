@@ -39,6 +39,6 @@ variable "codebuild_image" {
 }
 
 variable "action_triggers" {
-    description = "the path to the action_triggers.json file in your repo"
+    description = "the path to the action_triggers.json file in your repo, relative to the root of the repo."
     type        = string
 }
