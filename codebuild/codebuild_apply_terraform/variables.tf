@@ -78,3 +78,9 @@ variable "copy_artifacts" {
   description = "A list of maps containing artifacts to import with the artifact src and destination file path"
   default     = []
 }
+
+variable "service_name" {
+  description = "The name of service you are deploying"
+  type        = string
+  default     = "terraform_output"
+}
