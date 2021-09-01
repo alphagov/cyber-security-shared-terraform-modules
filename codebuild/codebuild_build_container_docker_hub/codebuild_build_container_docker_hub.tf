@@ -1,5 +1,5 @@
-resource "aws_codebuild_project" "code_pipeline_container_build_docker_hub" {
-  name        = "${var.pipeline_name}-dockerhub-deploy-${var.environment}"
+resource "aws_codebuild_project" "codebuild_build_container_docker_hub" {
+  name        = "${var.pipeline_name}-build-container-docker-hub-${var.environment}"
   description = "Build and push images to dockerhub"
 
   service_role = data.aws_iam_role.execution_role.arn
@@ -53,7 +53,7 @@ resource "aws_codebuild_project" "code_pipeline_container_build_docker_hub" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = file("${path.module}/code_build.yml")
+    buildspec = file("${path.module}/codebuild_build_container_docker_hub.yml")
   }
 }
 
