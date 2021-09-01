@@ -43,8 +43,6 @@ resource "aws_codebuild_project" "code_pipeline_get_actions_required" {
       name  = "ACTION_TRIGGERS"
       value = var.action_triggers
     }
-
-
   }
 
   source {
