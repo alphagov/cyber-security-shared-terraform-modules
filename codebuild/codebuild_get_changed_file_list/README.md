@@ -12,7 +12,7 @@ calls the Github API in order to return a list of files changed in the most rece
 Import the module into your terraform as below:
 ```
 module "codebuild-get-changed-file-list" {
-  source                      = "github.com/alphagov/cyber-security-shared-terraform-modules//codebuild/codebuild_git_diff"
+  source                      = "github.com/alphagov/cyber-security-shared-terraform-modules//codebuild/codebuild_get_changed_file_list"
   codebuild_service_role_name = var.codebuild_service_role_name
   deployment_account_id       = data.aws_caller_identity.current.account_id
   deployment_role_name        = var.deployment_role_name
