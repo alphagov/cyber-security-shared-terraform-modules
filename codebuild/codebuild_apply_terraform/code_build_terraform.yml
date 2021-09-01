@@ -8,6 +8,7 @@ phases:
     commands:
       - echo '[INFO] Copy artifacts'
       - copy_artifacts.py -j $COPY_ARTIFACTS
+      - REPO=$(pwd | awk -f '/' '{print $NF}') # For the artefact name
       - echo '[INFO] Validate Terraform...'
       - cd $TERRAFORM_DIRECTORY
       - terraform init --backend=false
@@ -29,6 +30,13 @@ phases:
         else
           terraform apply --auto-approve;
         fi
+  post_build:
+    commands:
+      - echo '[INFO] Assuming TF Deployer IAM role...'
+      - role_arn="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
+      - source /usr/local/bin/sts-assume-role.sh "$role_arn" "$AWS_DEFAULT_REGION"
+      - echo '[INFO] Writing Terraform output to a JSON file...'
+      - terraform output -json > ${REPO}-${AWS_ACCOUNT_ID}.json
 
 #artifacts:
  # name: TerraformPlanArtifacts
@@ -36,3 +44,8 @@ phases:
    # - terraform_$AWS_ACCOUNT_ID.plan
   #discard-paths: no
   #base-directory: /opt
+artifacts:
+  files:
+    - '**/*-$AWS_ACCOUNT_ID.json'
+  base-directory: '$TERRAFORM_DIRECTORY'
+  discard-paths: yes
