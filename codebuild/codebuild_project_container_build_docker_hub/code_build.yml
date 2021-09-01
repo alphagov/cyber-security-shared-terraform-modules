@@ -7,8 +7,8 @@ phases:
   pre_build:
     commands:
       - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
-      - ACTIONS_REQUIRED="${CODEBUILD_SRC_DIR_actions_required}"
-      - cat "${ACTIONS_REQUIRED}/actions_required.json"
+      - ACTIONS_REQUIRED="${CODEBUILD_SRC_DIR_actions_required}/actions_required.json"
+      - cat "${ACTIONS_REQUIRED}"
       - echo $ACTION_NAME
       - jq --help
       - if [ -n "$CHECK_TRIGGER" ]; then
