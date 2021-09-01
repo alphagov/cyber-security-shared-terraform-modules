@@ -1,0 +1,27 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  build:
+    commands:
+      - echo '[INFO] Assuming deployer role...'
+      - role_arn="arn:aws:iam::${AWS_ACCOUNT_ID}:role/${ROLE_NAME}"
+      - source /usr/local/bin/sts-assume-role.sh "$role_arn" "$AWS_DEFAULT_REGION"
+      - echo '[INFO] Setting variables for the ECS task'
+      - CLUSTER=$(jq '.service.value' ${REPO_NAME}-${AWS_ACCOUNT_ID}.json)
+      - NETWORK_CONFIGURATION=$(jq '.network_configuration.value' ${REPO_NAME}-${AWS_ACCOUNT_ID}.json)
+      - TASK_ARN=$(jq '.${TASK_NAME}_arn.value' ${REPO_NAME}-${AWS_ACCOUNT_ID}.json)
+      - aws ecs run-task --region $REGION --task-definition=${TASK_ARN} --cluster=${CLUSTER} --group=${CLUSTER}-${ENVIRONMENT}-${TASK_NAME}:${CLUSTER}-${TASK_NAME} --network-configuration=${NETWORK_CONFIGURATION} --count=1 --launch-type=FARGATE
+  post_build:
+    commands:
+      - echo "TBD"
+
+#artifacts:
+ # name: TerraformPlanArtifacts
+  #files:
+   # - terraform_$AWS_ACCOUNT_ID.plan
+  #discard-paths: no
+  #base-directory: /opt
+
