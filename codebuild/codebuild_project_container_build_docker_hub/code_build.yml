@@ -8,9 +8,6 @@ phases:
     commands:
       - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       - ACTIONS_REQUIRED="${CODEBUILD_SRC_DIR_actions_required}/actions_required.json"
-      - cat "${ACTIONS_REQUIRED}"
-      - echo $ACTION_NAME
-      - jq --help
       - if [ -n "$CHECK_TRIGGER" ]; then
           TRIGGER_BUILD=$(jq --arg ACTION_NAME "$ACTION_NAME" '.[] | select(.action ==$ACTION_NAME).required' $ACTIONS_REQUIRED); 
         else 
@@ -22,6 +19,8 @@ phases:
       - if $TRIGGER_BUILD; then
           echo Build started on `date`;
           echo Building the Docker image...;
+          docker build -t $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $BUILD_CONTEXT -f $DOCKERFILE;
+          docker tag $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG;
         else
           echo trigger build set to false, not rebuilding image;
         fi
@@ -30,6 +29,7 @@ phases:
       - if $TRIGGER_BUILD; then
           echo Build completed on `date`;
           echo Pushing the Docker image...;
+          docker push $DOCKERHUB_REPO:$DOCKERHUB_IMAGE_TAG;
         else
           echo Build set to false, not pushing image;
         fi

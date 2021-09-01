@@ -14,12 +14,12 @@ phases:
       - export AWS_SECRET_ACCESS_KEY=`echo "${TF_DEPLOYER_ROLE}" | jq -r '.Credentials.SecretAccessKey'`
       - export AWS_SESSION_TOKEN=`echo "${TF_DEPLOYER_ROLE}" | jq -r '.Credentials.SessionToken'`
       - aws sts get-caller-identity
-      - REBUILD_FILE="${CODEBUILD_SRC_DIR_rebuild_task}/rebuild_task.json"
-      - if [ -f "$REBUILD_FILE" ]; then
-            TRIGGER_BUILD=$(cat $REBUILD_FILE);
-        else
-            echo Rebuild file not found, defaulting to true...;
-            TRIGGER_BUILD=true;
+      - ACTIONS_REQUIRED="${CODEBUILD_SRC_DIR_actions_required}/actions_required.json"
+      - if [ -n "$CHECK_TRIGGER" ]; then
+          TRIGGER_BUILD=$(jq --arg ACTION_NAME "$ACTION_NAME" '.[] | select(.action ==$ACTION_NAME).required' $ACTIONS_REQUIRED); 
+        else 
+          echo "CHECK_TRIGGER not supplied, defaulting to true..";
+          TRIGGER_BUILD=true; 
         fi
   build:
     commands:
