@@ -3,8 +3,13 @@
 This module creates a CodeBuild project.
 
 The CodeBuild project deploys Terraform resources from a given directory in its environment, using a
-given AWS role to grant the necessary permissions to make the changes. It is designed to be used
-within a CodePipeline pipeline.
+given AWS role to grant the necessary permissions to make the changes.
+
+In the `post_build` step, the CodeBuild project writes the output of the command `terraform output
+-json` to a file, which is marked as an artifact that can be uploaded.
+
+It is designed to be used within a CodePipeline pipeline.
+
 
 ## Example Usage
 ```terraform
@@ -51,7 +56,7 @@ resource "aws_codepipeline" "example-pipeline" {
       version          = "1"
       run_order        = 1
       input_artifacts  = ["git_repo"]
-      output_artifacts = []
+      output_artifacts = ["terraform_output"]
 
       configuration = {
         ProjectName = module.codebuild-terraform-apply.project_name
@@ -84,6 +89,10 @@ The following arguments are optional:
   file
 - `apply_var_file` - If you use a var file during `terraform apply`, set this to the path of that
   file
+- `service_name` - This is used to modify the name of the JSON file that contains the output of
+  `terraform output -json`. You may want to change this from the default if:
+  - You need to reference the `terraform output` artifact, and
+  - You use this module for multiple different Terraform deployments in the same target account.
 
 ## Attributes Reference
 This module has a single output:
