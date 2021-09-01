@@ -93,6 +93,8 @@ The following arguments are optional:
   `terraform output -json`. You may want to change this from the default if:
   - You need to reference the `terraform output` artifact, and
   - You use this module for multiple different Terraform deployments in the same target account.
+  
+  Defaults to `"terraform_output"`
 
 ## Attributes Reference
 This module has a single output:
