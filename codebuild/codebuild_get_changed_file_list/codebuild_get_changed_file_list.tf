@@ -1,5 +1,5 @@
-resource "aws_codebuild_project" "code_pipeline_git_diff" {
-  name        = "${var.pipeline_name}-git-diff-${var.environment}"
+resource "aws_codebuild_project" "codebuild_get_changed_file_list" {
+  name        = "${var.pipeline_name}-get-changed-file-list-${var.environment}"
   description = "Get diff files for a given repository and store as artifact."
 
   service_role = data.aws_iam_role.execution_role.arn
@@ -64,6 +64,6 @@ resource "aws_codebuild_project" "code_pipeline_git_diff" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = file("${path.module}/code_build_git_diff.yml")
+    buildspec = file("${path.module}/codebuild_get_changed_file_list.yml")
   }
 }
