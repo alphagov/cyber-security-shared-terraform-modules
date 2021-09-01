@@ -1,5 +1,5 @@
-resource "aws_codebuild_project" "code_pipeline_ecr_container" {
-  name        = "${var.pipeline_name}-ecr-${var.environment}"
+resource "aws_codebuild_project" "codebuild_build_container_ecr" {
+  name        = "${var.pipeline_name}-build-container-ecr-${var.environment}"
   description = "Build container and push to ECR"
 
   service_role = data.aws_iam_role.execution_role.arn
@@ -64,6 +64,6 @@ resource "aws_codebuild_project" "code_pipeline_ecr_container" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = file("${path.module}/code_build_ecr_container.yml")
+    buildspec = file("${path.module}/codebuild_build_container_ecr.yml")
   }
 }
