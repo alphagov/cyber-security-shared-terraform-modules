@@ -1,5 +1,9 @@
+locals {
+  codebuild_project_name = "${var.pipeline_name}-build-container-docker-hub-${var.environment}"
+}
+
 resource "aws_codebuild_project" "code_pipeline_validate_terraform" {
-  name        = "${var.pipeline_name}-terraform-${var.environment}"
+  name        = local.codebuild_project_name
   description = "Run Terraform init and validate"
 
   service_role = data.aws_iam_role.execution_role.arn
@@ -60,4 +64,6 @@ resource "aws_codebuild_project" "code_pipeline_validate_terraform" {
     type      = "CODEPIPELINE"
     buildspec = file("${path.module}/code_build_validate_terraform.yml")
   }
+
+  tags = merge(var.tags, { "Name" : local.codebuild_project_name })
 }
