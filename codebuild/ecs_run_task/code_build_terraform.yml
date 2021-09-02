@@ -10,7 +10,7 @@ phases:
       - role_arn="arn:aws:iam::${AWS_ACCOUNT_ID}:role/${ROLE_NAME}"
       - source /usr/local/bin/sts-assume-role.sh "$role_arn" "$AWS_DEFAULT_REGION"
       - echo '[INFO] Setting variables for the ECS task'
-      - SERVICE=$(jq '.service.value' ${REPO_NAME}-${AWS_ACCOUNT_ID}.json)
+      - SERVICE=$(jq '.service.value' ${SERVICE_NAME}-${AWS_ACCOUNT_ID}.json)
       - NETWORK_CONFIGURATION=$(jq '.${SERVICE}-${TASK_NAME}-network.value' ${REPO_NAME}-${AWS_ACCOUNT_ID}.json)
       - TASK_ARN=$(jq '.${SERVICE}-${TASK_NAME}-arn.value' ${REPO_NAME}-${AWS_ACCOUNT_ID}.json)
       - aws ecs run-task --region $REGION --task-definition=${TASK_ARN} --cluster=${SERVICE} --group=${SERVICE}-${ENVIRONMENT}-${TASK_NAME}:${SERVICE}-${TASK_NAME} --network-configuration=${NETWORK_CONFIGURATION} --count=1 --launch-type=FARGATE

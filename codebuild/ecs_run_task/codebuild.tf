@@ -51,8 +51,8 @@ resource "aws_codebuild_project" "ecs_run_task" {
     }
 
     environment_variable {
-      name  = "REPO_NAME"
-      value = var.repo_name
+      name  = "SERVICE_NAME"
+      value = var.service_name
     }
   }
 

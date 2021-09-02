@@ -43,7 +43,7 @@ variable "pipeline_name" {
   type        = string
 }
 
-variable "repo_name" {
-  description = "Name of the repo? idk lol"
+variable "service_name" {
+  description = "The name of the service that was deployed"
   type = string
 }
