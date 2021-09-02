@@ -1,5 +1,9 @@
+locals {
+  codebuild_project_name = "${var.pipeline_name}-get-changed-file-list-${var.environment}"
+}
+
 resource "aws_codebuild_project" "codebuild_get_changed_file_list" {
-  name        = "${var.pipeline_name}-get-changed-file-list-${var.environment}"
+  name        = local.codebuild_project_name
   description = "Get diff files for a given repository and store as artifact."
 
   service_role = data.aws_iam_role.execution_role.arn
@@ -13,7 +17,7 @@ resource "aws_codebuild_project" "codebuild_get_changed_file_list" {
     name                = "changed_files.json"
     artifact_identifier = "changed_files"
     location            = var.artifact_bucket
-    path                = var.output_artifact_path 
+    path                = var.output_artifact_path
   }
 
   cache {
@@ -30,10 +34,10 @@ resource "aws_codebuild_project" "codebuild_get_changed_file_list" {
     privileged_mode             = false
 
     registry_credential {
-        credential_provider = "SECRETS_MANAGER"
-        credential          = data.aws_secretsmanager_secret.dockerhub_creds.arn
-      }
-  
+      credential_provider = "SECRETS_MANAGER"
+      credential          = data.aws_secretsmanager_secret.dockerhub_creds.arn
+    }
+
     environment_variable {
       name  = "AWS_ACCOUNT_ID"
       value = var.deployment_account_id
@@ -44,7 +48,7 @@ resource "aws_codebuild_project" "codebuild_get_changed_file_list" {
       value = var.deployment_role_name
     }
 
-     environment_variable {
+    environment_variable {
       name  = "GITHUB_PAT"
       value = var.github_pat
       type  = "PARAMETER_STORE"
@@ -66,4 +70,6 @@ resource "aws_codebuild_project" "codebuild_get_changed_file_list" {
     type      = "CODEPIPELINE"
     buildspec = file("${path.module}/codebuild_get_changed_file_list.yml")
   }
+
+  tags = merge(var.tags, { "Name" : local.codebuild_project_name })
 }

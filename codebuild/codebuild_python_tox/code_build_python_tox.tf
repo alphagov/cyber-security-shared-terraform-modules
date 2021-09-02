@@ -1,5 +1,8 @@
+locals {
+  codebuild_project_name = "${var.pipeline_name}-python-tox-${var.environment}"
+}
 resource "aws_codebuild_project" "code_pipeline_python_tox" {
-  name        = "${var.pipeline_name}-python-tox-${var.environment}"
+  name        = local.codebuild_project_name
   description = "Run Python tox"
 
   service_role = data.aws_iam_role.execution_role.arn
@@ -50,4 +53,6 @@ resource "aws_codebuild_project" "code_pipeline_python_tox" {
     type      = "CODEPIPELINE"
     buildspec = file("${path.module}/code_build_python_tox.yml")
   }
+
+  tags = merge(var.tags, { "Name" : local.codebuild_project_name })
 }
