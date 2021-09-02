@@ -55,6 +55,8 @@ resource "aws_codebuild_project" "codebuild_build_container_docker_hub" {
     type      = "CODEPIPELINE"
     buildspec = file("${path.module}/codebuild_build_container_docker_hub.yml")
   }
+
+  tags = merge(var.tags,{"Name": self.name})
 }
 
 data "aws_iam_role" "execution_role" {

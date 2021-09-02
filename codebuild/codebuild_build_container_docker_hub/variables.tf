@@ -44,3 +44,8 @@ variable "docker_hub_password" {
   description = "Dockerhub password"
   # sensitive   = true # Terraform 0.14+ only
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "Pass through parent service tags to CodeBuild project resource"
+}
