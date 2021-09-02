@@ -1,5 +1,8 @@
+locals {
+  cbp_dockerhub_name = "${var.pipeline_name}-build-container-docker-hub-${var.environment}"
+}
 resource "aws_codebuild_project" "codebuild_build_container_docker_hub" {
-  name        = "${var.pipeline_name}-build-container-docker-hub-${var.environment}"
+  name        = local.cbp_dockerhub_name
   description = "Build and push images to dockerhub"
 
   service_role = data.aws_iam_role.execution_role.arn
@@ -56,7 +59,7 @@ resource "aws_codebuild_project" "codebuild_build_container_docker_hub" {
     buildspec = file("${path.module}/codebuild_build_container_docker_hub.yml")
   }
 
-  tags = merge(var.tags,{"Name": self.name})
+  tags = merge(var.tags,{"Name": local.cbp_dockerhub_name})
 }
 
 data "aws_iam_role" "execution_role" {
