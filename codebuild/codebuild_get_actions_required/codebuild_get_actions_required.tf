@@ -1,5 +1,9 @@
+locals {
+  codebuild_project_name = "${var.pipeline_name}-get-actions-required-${var.environment}"
+}
+
 resource "aws_codebuild_project" "code_pipeline_get_actions_required" {
-  name        = "${var.pipeline_name}-get-actions-required-${var.environment}"
+  name        = local.codebuild_project_name
   description = "Reads changed_files.json and actions_triggers.json to produce actions_required.json."
 
   service_role = data.aws_iam_role.execution_role.arn
@@ -13,7 +17,7 @@ resource "aws_codebuild_project" "code_pipeline_get_actions_required" {
     name                = "actions_required.json"
     artifact_identifier = "actions_required"
     location            = var.artifact_bucket
-    path                = var.output_artifact_path 
+    path                = var.output_artifact_path
   }
 
   cache {
@@ -49,4 +53,6 @@ resource "aws_codebuild_project" "code_pipeline_get_actions_required" {
     type      = "CODEPIPELINE"
     buildspec = file("${path.module}/codebuild_get_actions_required.yml")
   }
+
+  tags = merge(var.tags, { "Name" : local.codebuild_project_name })
 }

@@ -1,5 +1,8 @@
+locals {
+  codebuild_project_name = "${var.pipeline_name}-build-container-ecr-${var.environment}"
+}
 resource "aws_codebuild_project" "codebuild_build_container_ecr" {
-  name        = "${var.pipeline_name}-build-container-ecr-${var.environment}"
+  name        = local.codebuild_project_name
   description = "Build container and push to ECR"
 
   service_role = data.aws_iam_role.execution_role.arn
@@ -66,4 +69,6 @@ resource "aws_codebuild_project" "codebuild_build_container_ecr" {
     type      = "CODEPIPELINE"
     buildspec = file("${path.module}/codebuild_build_container_ecr.yml")
   }
+
+  tags = merge(var.tags, { "Name" : local.codebuild_project_name })
 }

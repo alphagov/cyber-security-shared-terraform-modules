@@ -39,6 +39,12 @@ variable "codebuild_image" {
 }
 
 variable "action_triggers" {
-    description = "the path to the action_triggers.json file in your repo, relative to the root of the repo."
-    type        = string
+  description = "the path to the action_triggers.json file in your repo, relative to the root of the repo."
+  type        = string
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "Pass through parent service tags to CodeBuild project resource"
+  default     = {}
 }

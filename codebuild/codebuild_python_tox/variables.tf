@@ -13,7 +13,6 @@ variable "deployment_role_name" {
   type        = string
 }
 
-
 variable "codebuild_service_role_name" {
   description = "the role code build uses to access other AWS services"
   type        = string
@@ -47,4 +46,10 @@ variable "environment" {
 variable "docker_hub_credentials" {
   description = "The name of the Secrets Manager secret that contains the username and password for the Docker Hub"
   type        = string
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "Pass through parent service tags to CodeBuild project resource"
+  default     = {}
 }

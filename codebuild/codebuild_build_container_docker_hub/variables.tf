@@ -48,4 +48,5 @@ variable "docker_hub_password" {
 variable "tags" {
   type        = map(string)
   description = "Pass through parent service tags to CodeBuild project resource"
+  default     = {}
 }
