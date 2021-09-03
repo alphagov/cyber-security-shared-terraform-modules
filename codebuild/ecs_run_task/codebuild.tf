@@ -54,6 +54,11 @@ resource "aws_codebuild_project" "ecs_run_task" {
       name  = "SERVICE_NAME"
       value = var.service_name
     }
+
+    environment_variable {
+      name  = "NET_CONFIG_NAME"
+      value = var.network_config_name
+    }
   }
 
   source {

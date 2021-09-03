@@ -47,3 +47,8 @@ variable "service_name" {
   description = "The name of the service that was deployed"
   type = string
 }
+
+variable "network_config_name" {
+  description = "The name of the Terraform output that has the network configuration"
+  type = string
+}
