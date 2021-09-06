@@ -33,22 +33,37 @@ variable "codebuild_image" {
   type        = string
 }
 
-variable "ecs_task_name" {
-  description = "Name of the ECS task to run"
-  type        = string
-}
-
 variable "pipeline_name" {
   description = "The name of the pipeline this project will be a part of"
   type        = string
 }
 
 variable "service_name" {
-  description = "The name of the service that was deployed"
+  description = "The name of the Terraform output that contains the name of the service"
   type = string
 }
 
 variable "network_config_name" {
   description = "The name of the Terraform output that has the network configuration"
   type = string
+}
+
+variable "output_filename" {
+  description = "The filename that contains the Terraform output from a previous job"
+  type = string
+}
+
+variable "ecs_task_name" {
+  description = "The name of the Terraform output that has the ECS task ARN"
+  type        = string
+}
+
+variable "group_name" {
+  description = "The name of the Terraform output that has the ECS task group"
+  type        = string
+}
+
+variable "cluster_name" {
+  description = "The name of the Terraform output that has the ECS task cluster"
+  type        = string
 }

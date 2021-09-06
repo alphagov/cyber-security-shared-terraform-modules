@@ -51,13 +51,28 @@ resource "aws_codebuild_project" "ecs_run_task" {
     }
 
     environment_variable {
-      name  = "SERVICE_NAME"
-      value = var.service_name
+      name = "OUTPUT_FILENAME"
+      value = var.output_filename
     }
 
     environment_variable {
       name  = "NET_CONFIG_NAME"
       value = var.network_config_name
+    }
+
+    environment_variable {
+      name  = "TASK_ARN_NAME"
+      value = var.task_arn_name
+    }
+
+    environment_variable {
+      name = "GROUP_NAME"
+      value = var.group_name
+    }
+
+    environment_variable {
+      name = "CLUSTER_NAME"
+      value = var.cluster_name
     }
   }
 
