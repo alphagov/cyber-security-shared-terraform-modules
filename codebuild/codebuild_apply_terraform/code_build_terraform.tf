@@ -57,6 +57,11 @@ resource "aws_codebuild_project" "code_pipeline_terraform" {
       name  = "TERRAFORM_DIRECTORY"
       value = var.terraform_directory
     }
+
+    environment_variable {
+      name  = "COPY_ARTIFACTS"
+      value = jsonencode(var.copy_artifacts)
+    }
   }
 
   source {

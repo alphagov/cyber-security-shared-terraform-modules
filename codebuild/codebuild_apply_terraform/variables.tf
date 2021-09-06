@@ -60,3 +60,9 @@ variable "tags" {
   description = "Pass through parent service tags to CodeBuild project resource"
   default     = {}
 }
+
+variable "copy_artifacts" {
+  type        = list(map(string))
+  description = "A list of maps containing artifacts to import with the artifact src and destination file path"
+  default     = []
+}
