@@ -8,6 +8,18 @@ variable "pipeline_name" {
   description = "Name of the pipeline"
 }
 
+variable "stage_name" {
+  description = "The name of the pipeline stage"
+  type        = string
+  default     = "default"
+}
+
+variable "action_name" {
+  description = "The name of the pipeline stage action"
+  type        = string
+  default     = "default"
+}
+
 variable "dockerfile" {
   type        = string
   description = "Dockerfile to be used to build image"

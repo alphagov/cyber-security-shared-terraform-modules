@@ -44,6 +44,18 @@ variable "pipeline_name" {
   type        = string
 }
 
+variable "stage_name" {
+  description = "The name of the pipeline stage"
+  type        = string
+  default     = "default"
+}
+
+variable "action_name" {
+  description = "The name of the pipeline stage action"
+  type        = string
+  default     = "default"
+}
+
 variable "environment" {
   description = "e.g. staging, production"
   type        = string

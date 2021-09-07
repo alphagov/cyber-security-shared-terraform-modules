@@ -1,5 +1,5 @@
 locals {
-  codebuild_project_name = "${var.pipeline_name}-build-container-ecr-${var.environment}"
+  codebuild_project_name = "${var.pipeline_name}-${var.stage_name}-${var.action_name}"
 }
 resource "aws_codebuild_project" "codebuild_build_container_ecr" {
   name        = local.codebuild_project_name

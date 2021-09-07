@@ -1,5 +1,5 @@
 locals {
-  codebuild_project_name = "${var.pipeline_name}-build-container-docker-hub-${var.environment}"
+  codebuild_project_name = "${var.pipeline_name}-${var.stage_name}-${var.action_name}"
 }
 
 resource "aws_codebuild_project" "code_pipeline_validate_terraform" {
