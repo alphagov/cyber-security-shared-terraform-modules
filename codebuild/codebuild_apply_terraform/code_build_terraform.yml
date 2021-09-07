@@ -7,7 +7,7 @@ phases:
   pre_build:
     commands:
       - echo '[INFO] Copy artifacts'
-      - copy_artifacts.py -j $COPY_ARTIFACTS
+      - /usr/local/bin/copy_artifacts.py -j $COPY_ARTIFACTS
       - echo '[INFO] Validate Terraform...'
       - cd $TERRAFORM_DIRECTORY
       - terraform init --backend=false
