@@ -28,6 +28,18 @@ variable "pipeline_name" {
   type        = string
 }
 
+variable "stage_name" {
+  description = "The name of the pipeline stage"
+  type        = string
+  default     = "default"
+}
+
+variable "action_name" {
+  description = "The name of the pipeline stage action"
+  type        = string
+  default     = "default"
+}
+
 variable "python_source_directory" {
   description = "Directory name where the Python source code is located"
   type        = string

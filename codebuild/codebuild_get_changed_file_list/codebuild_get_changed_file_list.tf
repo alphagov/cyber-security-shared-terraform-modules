@@ -1,5 +1,5 @@
 locals {
-  codebuild_project_name = "${var.pipeline_name}-get-changed-file-list-${var.environment}"
+  codebuild_project_name = "${var.pipeline_name}-${var.stage_name}-${var.action_name}"
 }
 
 resource "aws_codebuild_project" "codebuild_get_changed_file_list" {
