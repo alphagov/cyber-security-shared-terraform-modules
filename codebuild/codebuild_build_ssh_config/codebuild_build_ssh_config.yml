@@ -6,8 +6,10 @@ env:
 phases:
   build:
     commands:
-      - set -e
-      - cat > deploy_key <<'EOF' ${DEPLOY_KEY} EOF
+      - set -e        
+      - cat << EOF > deploy_key
+        ${DEPLOY_KEY}
+        EOF
       - echo "Host github.com" > config
       - echo "  IdentityFile {workdir}/deploy_key" >> config
       - echo "  StrictHostKeyChecking no" >> config
