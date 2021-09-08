@@ -16,9 +16,10 @@ phases:
       - chmod 400 deploy_key
 
 artifacts:
+  name: ssh_config
   files:
-    - "**/*"
-  secondary-artifacts:
-    ssh_config:
-      base-directory: $CODEBUILD_SRC_DIR
+    - deploy_key
+    - config
+  discard-paths: no
+  base-directory: CODEBUILD_SRC_DIR
 

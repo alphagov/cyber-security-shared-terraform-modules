@@ -11,14 +11,6 @@ resource "aws_codebuild_project" "codebuild_build_ssh_config" {
     type = "CODEPIPELINE"
   }
 
-  secondary_artifacts {
-    type                = "S3"
-    name                = "ssh_config"
-    artifact_identifier = "ssh_config"
-    location            = var.artifact_bucket
-    path                = var.output_artifact_path
-  }
-
   cache {
     type  = "LOCAL"
     modes = ["LOCAL_DOCKER_LAYER_CACHE", "LOCAL_SOURCE_CACHE"]
