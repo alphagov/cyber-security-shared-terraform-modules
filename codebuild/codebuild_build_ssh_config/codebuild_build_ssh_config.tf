@@ -34,7 +34,8 @@ resource "aws_codebuild_project" "codebuild_build_ssh_config" {
 
     environment_variable {
       name  = "DEPLOY_KEY"
-      value = data.aws_ssm_parameter.deploy_key.value
+      value = var.deploy_key
+      type  = "PARAMETER_STORE"
     }
   }
 
