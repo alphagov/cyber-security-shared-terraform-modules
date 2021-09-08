@@ -20,11 +20,6 @@ variable "action_name" {
   default     = "default"
 }
 
-variable "deployment_account_id" {
-  description = "The AWS account id where you are deploying to ECR image to."
-  type        = string
-}
-
 variable "codebuild_service_role_name" {
   description = "The role code build uses to access other AWS services."
   type        = string
