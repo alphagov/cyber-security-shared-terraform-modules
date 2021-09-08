@@ -33,16 +33,6 @@ resource "aws_codebuild_project" "codebuild_build_ssh_config" {
     privileged_mode             = true
 
     environment_variable {
-      name  = "AWS_ACCOUNT_ID"
-      value = var.deployment_account_id
-    }
-
-    environment_variable {
-      name  = "ROLE_NAME"
-      value = var.deployment_role_name
-    }
-
-    environment_variable {
       name  = "DEPLOY_KEY"
       value = data.aws_ssm_parameter.deploy_key.value
     }

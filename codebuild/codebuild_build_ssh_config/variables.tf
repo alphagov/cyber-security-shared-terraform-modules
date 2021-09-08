@@ -44,3 +44,9 @@ variable "output_artifact_path" {
   description = "the S3 path to store the output atrifact"
   type        = string
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "Pass through parent service tags to CodeBuild project resource"
+  default     = {}
+}
