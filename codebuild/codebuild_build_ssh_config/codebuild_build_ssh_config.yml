@@ -19,5 +19,5 @@ artifacts:
     - deploy_key
     - config
   discard-paths: no
-  base-directory: CODEBUILD_SRC_DIR
+  base-directory: $CODEBUILD_SRC_DIR
 
