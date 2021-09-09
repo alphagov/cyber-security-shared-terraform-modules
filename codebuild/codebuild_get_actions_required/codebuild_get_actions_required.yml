@@ -8,33 +8,24 @@ phases:
     commands:
       - set -e
       - echo getting required actions...
-      - |
-        # TODO replace this with something more sensible
-        if [[ $CHANGED_FILES_ARTIFACT == "default" ]]; then
-          CHANGED_FILES_PATH=$CODEBUILD_SRC_DIR
-        else
-          CHANGED_FILES_VAR="CODEBUILD_SRC_DIR_${CHANGED_FILES_ARTIFACT}"
-          CHANGED_FILES_PATH=${!CHANGED_FILES_VAR}
-        fi
-        CHANGED_FILES="${CHANGED_FILES_PATH}/${CHANGED_FILES_JSON}"
-
-        if [[ $ACTION_TRIGGERS_ARTIFACT == "default" ]]; then
-          ACTION_TRIGGERS_PATH=$CODEBUILD_SRC_DIR
-        else
-          ACTION_TRIGGERS_VAR="CODEBUILD_SRC_DIR_${ACTION_TRIGGERS_ARTIFACT}"
-          ACTION_TRIGGERS_PATH=${!ACTION_TRIGGERS_VAR}
-        fi
-        ACTION_TRIGGERS="${ACTION_TRIGGERS_PATH}/${ACTION_TRIGGERS_JSON}"
-        echo $CHANGED_FILES
-        echo $ACTION_TRIGGERS
-
-        get_actions_required.py \
-          -c $CHANGED_FILES \
-          -t $ACTION_TRIGGERS \
-          -o $OUTPUT_ARTIFACT_PATH
-        mv $OUTPUT_ARTIFACT_PATH /opt/$OUTPUT_ARTIFACT_PATH
-        ls /opt
-        cat /opt/$OUTPUT_ARTIFACT_PATH
+      - CHANGED_FILES_VAR="CODEBUILD_SRC_DIR_${CHANGED_FILES_ARTIFACT}"
+      - CHANGED_FILES_VAR=$(echo $CHANGED_FILES_VAR | sed s/_$//)
+      - CHANGED_FILES_PATH=${!CHANGED_FILES_VAR}
+      - CHANGED_FILES="${CHANGED_FILES_PATH}${CHANGED_FILES_JSON}"
+      - ACTION_TRIGGERS_VAR="CODEBUILD_SRC_DIR_${ACTION_TRIGGERS_ARTIFACT}"
+      - ACTION_TRIGGERS_VAR=$(echo $ACTION_TRIGGERS_VAR | sed s/_$//)
+      - ACTION_TRIGGERS_PATH=${!ACTION_TRIGGERS_VAR}
+      - ACTION_TRIGGERS="${ACTION_TRIGGERS_PATH}${ACTION_TRIGGERS_JSON}"
+      - echo $CHANGED_FILES_VAR
+      - echo $ACTION_TRIGGERS_VAR
+      - echo $CHANGED_FILES_PATH
+      - echo $ACTION_TRIGGERS_PATH
+      - echo $CHANGED_FILES
+      - echo $ACTION_TRIGGERS
+      - get_actions_required.py -c $CHANGED_FILES -t $ACTION_TRIGGERS -o $OUTPUT_ARTIFACT_PATH
+      - mv $OUTPUT_ARTIFACT_PATH /opt/$OUTPUT_ARTIFACT_PATH
+      - ls /opt
+      - cat /opt/$OUTPUT_ARTIFACT_PATH
 
 artifacts:
   name: ActionsRequired

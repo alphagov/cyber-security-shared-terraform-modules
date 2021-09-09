@@ -55,7 +55,7 @@ variable "changed_files_json" {
 variable "action_triggers_artifact" {
   description = "the input artifact containing the action triggers json file."
   type        = string
-  default     = "default"
+  default     = ""
 }
 
 variable "action_triggers_json" {
