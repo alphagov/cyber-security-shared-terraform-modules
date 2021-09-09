@@ -40,7 +40,6 @@ variable "codebuild_image" {
   type        = string
 }
 
-
 variable "changed_files_artifact" {
   description = "the input artifact containing the changed files json file."
   type        = string
@@ -51,6 +50,12 @@ variable "changed_files_json" {
   description = "the path to the changed_files.json file in your repo (can include artifact var)."
   type        = string
   default     = "$CODEBUILD_SRC_DIR_changed_files/changed_files.json"
+}
+
+variable "action_triggers_artifact" {
+  description = "the input artifact containing the action triggers json file."
+  type        = string
+  default     = "default"
 }
 
 variable "action_triggers_json" {

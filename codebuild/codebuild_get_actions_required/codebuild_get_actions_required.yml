@@ -9,9 +9,26 @@ phases:
       - set -e
       - echo getting required actions...
       - |
+        # TODO replace this with something more sensible
+        if [[ $CHANGED_FILES_ARTIFACT == "default" ]]; then
+          CHANGED_FILES_PATH=$CODEBUILD_SRC_DIR
+        else
+          CHANGED_FILES_VAR="CODEBUILD_SRC_DIR_${CHANGED_FILES_ARTIFACT}"
+          CHANGED_FILES_PATH=${!CHANGED_FILES_VAR}
+        fi
+        CHANGED_FILES="${CHANGED_FILES_PATH}/${CHANGED_FILES_JSON}"
+
+        if [[ $ACTION_TRIGGERS_ARTIFACT == "default" ]]; then
+          ACTION_TRIGGERS_PATH=$CODEBUILD_SRC_DIR
+        else
+          ACTION_TRIGGERS_VAR="CODEBUILD_SRC_DIR_${ACTION_TRIGGERS_ARTIFACT}"
+          ACTION_TRIGGERS_PATH=${!ACTION_TRIGGERS_VAR}
+        fi
+        ACTION_TRIGGERS_FILES="${ACTION_TRIGGERS_PATH}/${ACTION_TRIGGERS_JSON}"
+
         get_actions_required.py \
-          -c $CHANGED_FILES_JSON \
-          -t $ACTION_TRIGGERS_JSON \
+          -c $CHANGED_FILES \
+          -t $ACTION_TRIGGERS \
           -o $OUTPUT_ARTIFACT_PATH
         mv $OUTPUT_ARTIFACT_PATH /opt/$OUTPUT_ARTIFACT_PATH
         ls /opt
