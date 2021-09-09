@@ -40,19 +40,34 @@ variable "artifact_bucket" {
   type        = string
 }
 
-variable "output_artifact_path" {
-  description = "the S3 path to store the output atrifact"
-  type        = string
-}
-
 variable "codebuild_image" {
   description = "the image in which you want to run the codebuild task"
   type        = string
 }
 
-variable "action_triggers" {
+
+variable "changed_files_artifact" {
+  description = "the input artifact containing the changed files json file."
+  type        = string
+  default     = "changed_files"
+}
+
+variable "changed_files_json" {
+  description = "the path to the changed_files.json file in your repo (can include artifact var)."
+  type        = string
+  default     = "$CODEBUILD_SRC_DIR_changed_files/changed_files.json"
+}
+
+variable "action_triggers_json" {
   description = "the path to the action_triggers.json file in your repo, relative to the root of the repo."
   type        = string
+  default     = "$CODEBUILD_SRC_DIR/terraform/deployments/670214072732/action_triggers.json"
+}
+
+variable "output_artifact_path" {
+  description = "The file name to be created"
+  type        = string
+  default     = "actions_required.json"
 }
 
 variable "tags" {

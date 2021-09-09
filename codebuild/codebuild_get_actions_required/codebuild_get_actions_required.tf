@@ -12,14 +12,6 @@ resource "aws_codebuild_project" "code_pipeline_get_actions_required" {
     type = "CODEPIPELINE"
   }
 
-  secondary_artifacts {
-    type                = "S3"
-    name                = "actions_required.json"
-    artifact_identifier = "actions_required"
-    location            = var.artifact_bucket
-    path                = var.output_artifact_path
-  }
-
   cache {
     type  = "LOCAL"
     modes = ["LOCAL_DOCKER_LAYER_CACHE", "LOCAL_SOURCE_CACHE"]
@@ -44,8 +36,18 @@ resource "aws_codebuild_project" "code_pipeline_get_actions_required" {
     }
 
     environment_variable {
-      name  = "ACTION_TRIGGERS"
-      value = var.action_triggers
+      name  = "CHANGED_FILES_JSON"
+      value = var.changed_files_json
+    }
+
+    environment_variable {
+      name  = "ACTION_TRIGGERS_JSON"
+      value = var.action_triggers_json
+    }
+
+    environment_variable {
+      name  = "OUTPUT_ARTIFACT_PATH"
+      value = var.output_artifact_path
     }
   }
 

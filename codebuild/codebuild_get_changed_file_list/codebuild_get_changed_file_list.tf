@@ -64,6 +64,11 @@ resource "aws_codebuild_project" "codebuild_get_changed_file_list" {
       value = var.repo_name
     }
 
+    environment_variable {
+      name  = "OUTPUT_ARTIFACT_PATH"
+      value = var.output_artifact_path
+    }
+
   }
 
   source {

@@ -6,14 +6,17 @@ env:
 phases:
   build:
     commands:
+      - -e
       - echo getting required actions...
-      - python /usr/local/bin/get_actions_required.py
+      - |
+        get_actions_required.py \
+          -c $CHANGED_FILES_JSON \
+          -t $ACTION_TRIGGERS_JSON \
+          -o /opt/$OUTPUT_ARTIFACT_PATH
 
 artifacts:
+  name: ActionsRequired
   files:
-    - "**/*"
-  secondary-artifacts:
-    actions_required:
-      base-directory: $CODEBUILD_SRC_DIR
-      files: 
-        - actions_required.json
+    - $OUTPUT_ARTIFACT_PATH
+  discard-paths: no
+  base-directory: /opt
