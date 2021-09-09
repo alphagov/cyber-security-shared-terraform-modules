@@ -36,16 +36,11 @@ phases:
       - role_arn="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
       - source /usr/local/bin/sts-assume-role.sh "$role_arn" "$AWS_DEFAULT_REGION"
       - echo '[INFO] Writing Terraform output to a JSON file...'
-      - terraform output -json > ${SERVICE_NAME}-${AWS_ACCOUNT_ID}.json
+      - terraform output -json > /opt/${SERVICE_NAME}-${AWS_ACCOUNT_ID}.json
 
-#artifacts:
- # name: TerraformPlanArtifacts
-  #files:
-   # - terraform_$AWS_ACCOUNT_ID.plan
-  #discard-paths: no
-  #base-directory: /opt
 artifacts:
+  name: TerraformApplyArtifacts
   files:
-    - '**/*-$AWS_ACCOUNT_ID.json'
-  base-directory: '$TERRAFORM_DIRECTORY'
-  discard-paths: yes
+    - '${SERVICE_NAME}-$AWS_ACCOUNT_ID.json'
+  base-directory: /opt
+  discard-paths: no
