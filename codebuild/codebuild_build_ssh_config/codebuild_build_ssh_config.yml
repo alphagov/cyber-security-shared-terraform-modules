@@ -1,0 +1,22 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  build:
+    commands:
+      - set -e
+      - mkdir -p /opt/.ssh
+      - cat <<< "$DEPLOY_KEY" > /opt/.ssh/deploy_key
+      - echo 'Host github.com' > /opt/.ssh/config
+      - echo '  IdentityFile ${HOME}/deploy_key' >> /opt/.ssh/config
+      - echo '  StrictHostKeyChecking no' >> /opt/.ssh/config
+      - chmod 400 /opt/.ssh/deploy_key
+
+artifacts:
+  name: ssh_config
+  files:
+    - .ssh/*
+  discard-paths: no
+  base-directory: /opt
