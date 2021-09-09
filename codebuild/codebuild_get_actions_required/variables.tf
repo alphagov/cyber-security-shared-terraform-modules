@@ -35,11 +35,6 @@ variable "codebuild_service_role_name" {
   type        = string
 }
 
-variable "artifact_bucket" {
-  description = "S3 path where the artifact will be stored."
-  type        = string
-}
-
 variable "codebuild_image" {
   description = "the image in which you want to run the codebuild task"
   type        = string

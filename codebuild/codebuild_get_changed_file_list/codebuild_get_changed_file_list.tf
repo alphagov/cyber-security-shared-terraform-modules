@@ -12,14 +12,6 @@ resource "aws_codebuild_project" "codebuild_get_changed_file_list" {
     type = "CODEPIPELINE"
   }
 
-  secondary_artifacts {
-    type                = "S3"
-    name                = "changed_files.json"
-    artifact_identifier = "changed_files"
-    location            = var.artifact_bucket
-    path                = var.output_artifact_path
-  }
-
   cache {
     type  = "LOCAL"
     modes = ["LOCAL_DOCKER_LAYER_CACHE", "LOCAL_SOURCE_CACHE"]
