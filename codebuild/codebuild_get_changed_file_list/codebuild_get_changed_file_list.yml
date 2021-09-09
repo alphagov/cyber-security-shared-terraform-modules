@@ -6,7 +6,7 @@ env:
 phases:
   build:
     commands:
-      - -e
+      - set -e
       - echo outputting git diff file...
       - get_pr_changed_files_list.sh ${REPO_NAME} /opt/$OUTPUT_ARTIFACT_PATH
 
