@@ -46,6 +46,16 @@ resource "aws_codebuild_project" "code_pipeline_get_actions_required" {
     }
 
     environment_variable {
+      name  = "CHANGED_FILES_ARTIFACT"
+      value = var.changed_files_artifact
+    }
+
+    environment_variable {
+      name  = "ACTION_TRIGGERS_ARTIFACT"
+      value = var.action_triggers_artifact
+    }
+
+    environment_variable {
       name  = "OUTPUT_ARTIFACT_PATH"
       value = var.output_artifact_path
     }
