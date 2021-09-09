@@ -6,15 +6,13 @@ env:
 phases:
   build:
     commands:
+      - -e
       - echo outputting git diff file...
-      - cd $CODEBUILD_SRC_DIR
-      - source /usr/local/bin/get_pr_changed_files_list.sh ${REPO_NAME} changed_files.json
+      - get_pr_changed_files_list.sh ${REPO_NAME} /opt/$OUTPUT_ARTIFACT_PATH
 
 artifacts:
+  name: ChangedFiles
   files:
-    - "**/*"
-  secondary-artifacts:
-    changed_files:
-      base-directory: $CODEBUILD_SRC_DIR
-      files: 
-        - changed_files.json
+    - $OUTPUT_ARTIFACT_PATH
+  discard-paths: no
+  base-directory: /opt
