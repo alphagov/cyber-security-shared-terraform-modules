@@ -8,7 +8,8 @@ phases:
     commands:
       - set -e
       - echo outputting git diff file...
-      - get_pr_changed_files_list.sh ${REPO_NAME} /opt/$OUTPUT_ARTIFACT_PATH
+      - get_pr_changed_files_list.sh ${REPO_NAME} $OUTPUT_ARTIFACT_PATH
+      - mv $OUTPUT_ARTIFACT_PATH /opt/$OUTPUT_ARTIFACT_PATH
       - ls /opt
       - cat /opt/$OUTPUT_ARTIFACT_PATH
 
