@@ -6,18 +6,17 @@ env:
 phases:
   build:
     commands:
-      - set -e        
-      - cat <<< "$DEPLOY_KEY" > deploy_key
-      - echo "Host github.com" > config
-      - echo "  IdentityFile {workdir}/deploy_key" >> config
-      - echo "  StrictHostKeyChecking no" >> config
-      - chmod 400 deploy_key
+      - set -e
+      - mkdir -p /opt/.ssh
+      - cat <<< "$DEPLOY_KEY" > /opt/.ssh/deploy_key
+      - echo 'Host github.com' > /opt/.ssh/config
+      - echo '  IdentityFile ${HOME}/deploy_key' >> /opt/.ssh/config
+      - echo '  StrictHostKeyChecking no' >> /opt/.ssh/config
+      - chmod 400 /opt/.ssh/deploy_key
 
 artifacts:
   name: ssh_config
   files:
-    - deploy_key
-    - config
+    - .ssh/*
   discard-paths: no
-  base-directory: $CODEBUILD_SRC_DIR
-
+  base-directory: /opt
