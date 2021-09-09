@@ -62,6 +62,11 @@ resource "aws_codebuild_project" "code_pipeline_terraform" {
       name  = "COPY_ARTIFACTS"
       value = jsonencode(var.copy_artifacts)
     }
+
+    environment_variable {
+      name = "SERVICE_NAME"
+      value = var.service_name
+    }
   }
 
   source {
