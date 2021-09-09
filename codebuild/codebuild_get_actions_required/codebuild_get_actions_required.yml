@@ -6,7 +6,7 @@ env:
 phases:
   build:
     commands:
-      - -e
+      - set -e
       - echo getting required actions...
       - |
         get_actions_required.py \
