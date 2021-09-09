@@ -12,7 +12,10 @@ phases:
         get_actions_required.py \
           -c $CHANGED_FILES_JSON \
           -t $ACTION_TRIGGERS_JSON \
-          -o /opt/$OUTPUT_ARTIFACT_PATH
+          -o $OUTPUT_ARTIFACT_PATH
+        mv $OUTPUT_ARTIFACT_PATH /opt/$OUTPUT_ARTIFACT_PATH
+        ls /opt
+        cat /opt/$OUTPUT_ARTIFACT_PATH
 
 artifacts:
   name: ActionsRequired
