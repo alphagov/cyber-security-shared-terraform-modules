@@ -10,7 +10,7 @@ phases:
       - mkdir -p /opt/.ssh
       - cat <<< "$DEPLOY_KEY" > /opt/.ssh/deploy_key
       - echo 'Host github.com' > /opt/.ssh/config
-      - echo '  IdentityFile ${HOME}/.ssh/deploy_key' >> /opt/.ssh/config
+      - echo '  IdentityFile ~/.ssh/deploy_key' >> /opt/.ssh/config
       - echo '  StrictHostKeyChecking no' >> /opt/.ssh/config
       - chmod 400 /opt/.ssh/deploy_key
 
