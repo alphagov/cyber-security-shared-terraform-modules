@@ -22,7 +22,7 @@ phases:
       - ls
       - echo $BACKEND_VAR_FILE
       - if [ -f "$BACKEND_VAR_FILE" ]; then
-          terraform init -backend="$BACKEND_VAR_FILE";
+          terraform init -backend-config="$BACKEND_VAR_FILE";
         else
           terraform init;
         fi
