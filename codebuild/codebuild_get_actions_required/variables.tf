@@ -70,6 +70,11 @@ variable "output_artifact_path" {
   default     = "actions_required.json"
 }
 
+variable "docker_hub_credentials" {
+  description = "The name of the Secrets Manager secret that contains the username and password for the Docker Hub"
+  type        = string
+}
+
 variable "tags" {
   type        = map(string)
   description = "Pass through parent service tags to CodeBuild project resource"
