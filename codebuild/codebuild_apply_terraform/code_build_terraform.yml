@@ -9,34 +9,52 @@ phases:
       - echo '[INFO] Copy artifacts'
       - copy_artifacts.py -j $COPY_ARTIFACTS
       - REPO=$(pwd | awk -F '/' '{print $NF}') # For the artefact name
-      - echo '[INFO] Validate Terraform...'
-      - cd $TERRAFORM_DIRECTORY
-      - terraform init --backend=false
-      - terraform validate
+      - ACTIONS_REQUIRED="${CODEBUILD_SRC_DIR_actions_required}/actions_required.json"
+      - if [ -n "$CHECK_TRIGGER" ]; then
+          TRIGGER_BUILD=$(jq --arg ACTION_NAME "$ACTION_NAME" '.[] | select(.action ==$ACTION_NAME).required' $ACTIONS_REQUIRED);
+          TRIGGER_BUILD=true; 
+        else 
+          echo "CHECK_TRIGGER not supplied, defaulting to true..";
+          TRIGGER_BUILD=true; 
+        fi
+      - if $TRIGGER_BUILD; then
+          echo '[INFO] Validate Terraform...';
+          cd $TERRAFORM_DIRECTORY;
+          terraform init --backend=false;
+          terraform validate;
+        else
+          echo trigger build set to false, not validating terraform;
+        fi
   build:
     commands:
-      - echo '[INFO] Assuming TF Deployer IAM role...'
-      - role_arn="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
-      - source /usr/local/bin/sts-assume-role.sh "$role_arn" "$AWS_DEFAULT_REGION"
-      - if [ -f "$BACKEND_VAR_FILE" ]; then
+      - if $TRIGGER_BUILD; then
+        echo '[INFO] Assuming TF Deployer IAM role...';
+        role_arn="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME";
+        source /usr/local/bin/sts-assume-role.sh "$role_arn" "$AWS_DEFAULT_REGION";
+        if [ -f "$BACKEND_VAR_FILE" ]; then
           terraform init -backend="$BACKEND_VAR_FILE";
-        else
-          terraform init;
-        fi
-      - # echo '[INFO] Not actually applying'
-      - # terraform plan --out=/opt/terraform_$AWS_ACCOUNT_ID.plan
-      - if [ -f "$APPLY_VAR_FILE" ]; then
+          else
+            terraform init;
+          fi
+        if [ -f "$APPLY_VAR_FILE" ]; then
           terraform apply --auto-approve -var-file="$APPLY_VAR_FILE";
+          else
+            terraform apply --auto-approve;
+          fi
         else
-          terraform apply --auto-approve;
+          echo Trigger build set to false, not applying terraform;
         fi
   post_build:
     commands:
-      - echo '[INFO] Assuming TF Deployer IAM role...'
-      - role_arn="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
-      - source /usr/local/bin/sts-assume-role.sh "$role_arn" "$AWS_DEFAULT_REGION"
-      - echo '[INFO] Writing Terraform output to a JSON file...'
-      - terraform output -json > /opt/${SERVICE_NAME}-${AWS_ACCOUNT_ID}.json
+      - if $TRIGGER_BUILD; then
+          echo '[INFO] Assuming TF Deployer IAM role...';
+          role_arn="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME";
+          source /usr/local/bin/sts-assume-role.sh "$role_arn" "$AWS_DEFAULT_REGION";
+          echo '[INFO] Writing Terraform output to a JSON file...';
+          terraform output -json > /opt/${SERVICE_NAME}-${AWS_ACCOUNT_ID}.json;
+        else
+          echo Trigger build set to false, not pwriting terraform output;
+        fi
 
 artifacts:
   name: TerraformApplyArtifacts
@@ -44,3 +62,19 @@ artifacts:
     - '${SERVICE_NAME}-$AWS_ACCOUNT_ID.json'
   base-directory: /opt
   discard-paths: no
+
+
+      - if $TRIGGER_BUILD; then
+          aws sts get-caller-identity;
+          echo Build completed on `date`;
+          echo Pushing the Docker image...;
+          ECR_REPO=$(aws ecr describe-repositories --repository-names ${ECR_IMAGE_REPO_NAME} 2>&1);
+          if echo ${ECR_REPO} | grep -q RepositoryNotFoundException; then
+            aws ecr create-repository --repository-name ${ECR_IMAGE_REPO_NAME};
+            else
+              echo Repository already exists, pushing image...;
+            fi;
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_IMAGE_REPO_NAME}:${ECR_IMAGE_TAG};
+        else
+          echo Build set to false, not pushing image;
+        fi
