@@ -9,7 +9,7 @@ changes to the SNS topic.
 ## Example Usage
 ```terraform
 module "codepipeline-healthcheck" {
-  source                         = "github.com/alphagov/cyber-security-shared-terraform-modules//codepipeline_healthcheck"
+  source                         = "github.com/alphagov/cyber-security-shared-terraform-modules//cloudwatch/cloudwatch_report_codepipeline_status"
   pipeline_name                  = "example_pipeline
   health_notification_topic_name = "example_topic"
 }
