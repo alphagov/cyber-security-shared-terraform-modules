@@ -11,7 +11,6 @@ phases:
       - REPO=$(pwd | awk -F '/' '{print $NF}') # For the artefact name
       - ACTIONS_REQUIRED="${CODEBUILD_SRC_DIR_actions_required}/actions_required.json"
       - if [ -n "$CHECK_TRIGGER" ]; then
-          TRIGGER_BUILD=$(jq --arg ACTION_NAME "$ACTION_NAME" '.[] | select(.action ==$ACTION_NAME).required' $ACTIONS_REQUIRED);
           TRIGGER_BUILD=true; 
         else 
           echo "CHECK_TRIGGER not supplied, defaulting to true..";
