@@ -22,7 +22,7 @@ phases:
           terraform init --backend=false;
           terraform validate;
         else
-          echo trigger build set to false, not validating terraform;
+          echo "trigger build set to false, not validating terraform"   ;
         fi
   build:
     commands:
@@ -30,13 +30,13 @@ phases:
         echo '[INFO] Assuming TF Deployer IAM role...';
         role_arn="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME";
         source /usr/local/bin/sts-assume-role.sh "$role_arn" "$AWS_DEFAULT_REGION";
-        if [ -f "$BACKEND_VAR_FILE" ]; then
-          terraform init -backend="$BACKEND_VAR_FILE";
+          if [ -f "$BACKEND_VAR_FILE" ]; then
+            terraform init -backend="$BACKEND_VAR_FILE";
           else
             terraform init;
           fi
-        if [ -f "$APPLY_VAR_FILE" ]; then
-          terraform apply --auto-approve -var-file="$APPLY_VAR_FILE";
+          if [ -f "$APPLY_VAR_FILE" ]; then
+            terraform apply --auto-approve -var-file="$APPLY_VAR_FILE";
           else
             terraform apply --auto-approve;
           fi
@@ -61,4 +61,3 @@ artifacts:
     - '${SERVICE_NAME}-$AWS_ACCOUNT_ID.json'
   base-directory: /opt
   discard-paths: no
-  
