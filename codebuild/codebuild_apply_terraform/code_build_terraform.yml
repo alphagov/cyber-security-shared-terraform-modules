@@ -11,7 +11,7 @@ phases:
       - REPO=$(pwd | awk -F '/' '{print $NF}') # For the artefact name
       - ACTIONS_REQUIRED="${CODEBUILD_SRC_DIR_actions_required}/actions_required.json"
       - if [ -n "$CHECK_TRIGGER" ]; then
-          TRIGGER_BUILD=true; 
+          TRIGGER_BUILD=$(jq --arg ACTION_NAME "$ACTION_NAME" '.[] | select(.action ==$ACTION_NAME).required' $ACTIONS_REQUIRED); 
         else 
           echo "CHECK_TRIGGER not supplied, defaulting to true..";
           TRIGGER_BUILD=true; 
@@ -52,7 +52,7 @@ phases:
           echo '[INFO] Writing Terraform output to a JSON file...';
           terraform output -json > /opt/${SERVICE_NAME}-${AWS_ACCOUNT_ID}.json;
         else
-          echo "Trigger build set to false, not pwriting terraform output";
+          echo "Trigger build set to false, not writing terraform output";
         fi
 
 artifacts:
