@@ -25,7 +25,8 @@ module "codebuild-get-actions-required" {
   environment                 = var.environment
   output_artifact_path        = var.output_artifact_path
   artifact_bucket             = data.aws_s3_bucket.artifact_store.bucket
-  action_triggers             = var.action_triggers
+  action_triggers_json        = var.action_triggers
+  docker_hub_credentials      = var.docker_hub_credentials
 }
 ```
 
