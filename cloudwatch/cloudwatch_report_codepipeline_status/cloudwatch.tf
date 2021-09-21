@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_event_rule" "codepipeline_event_rule" {
-  name        = "codepipeline-${var.pipeline_name}-healthcheck-event-rule"
+  name        = "codepipeline-events-${substr(var.pipeline_name, 0, 44)}"
   description = "Codepipeline Execution State Change"
 
   event_pattern = <<EOF
