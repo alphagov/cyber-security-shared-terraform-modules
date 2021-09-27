@@ -73,3 +73,8 @@ variable "tags" {
   description = "Pass through parent service tags to CodeBuild project resource"
   default     = {}
 }
+
+variable "codebuild_image" {
+  type        = string
+  default     = "gdscyber/cyber-security-cd-base-image:latest"
+}
