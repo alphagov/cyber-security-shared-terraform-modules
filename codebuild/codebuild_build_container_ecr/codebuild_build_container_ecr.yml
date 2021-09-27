@@ -45,7 +45,6 @@ phases:
             else
               echo Repository already exists, pushing image...;
             fi;
-          aws sts get-caller-identity;
           docker push $AWS_ACCOUNT_ID.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_IMAGE_REPO_NAME}:${ECR_IMAGE_TAG};
         else
           echo Build set to false, not pushing image;
