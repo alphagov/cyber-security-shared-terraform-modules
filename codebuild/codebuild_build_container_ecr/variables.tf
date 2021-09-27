@@ -73,8 +73,3 @@ variable "tags" {
   description = "Pass through parent service tags to CodeBuild project resource"
   default     = {}
 }
-
-variable "codebuild_image" {
-  type        = string
-  default     = "aws/codebuild/standard:4.0"
-}
