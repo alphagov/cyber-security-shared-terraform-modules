@@ -76,5 +76,5 @@ variable "tags" {
 
 variable "codebuild_image" {
   type        = string
-  default     = "gdscyber/cyber-security-cd-base-image:latest"
+  default     = "aws/codebuild/standard:4.0"
 }
