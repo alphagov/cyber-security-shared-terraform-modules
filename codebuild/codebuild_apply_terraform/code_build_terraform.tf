@@ -35,7 +35,7 @@ resource "aws_codebuild_project" "code_pipeline_terraform" {
 
     environment_variable {
       name  = "TERRAFORM_VERSION"
-      value = "0.12.31"
+      value = var.terraform_version
     }
 
     environment_variable {
