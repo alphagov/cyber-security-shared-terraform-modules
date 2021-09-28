@@ -13,6 +13,12 @@ variable "deployment_role_name" {
   type        = string
 }
 
+variable "terraform_version" {
+  description = "The terraform version to be used"
+  type        = string
+  default     = "0.12.31"
+}
+
 variable "terraform_directory" {
   description = "the location where code pipeline will runn terraform from"
   type        = string
