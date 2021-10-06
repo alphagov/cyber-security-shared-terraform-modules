@@ -1,0 +1,30 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  build:
+    commands:
+      - set -e
+      - >
+        aws ecs run-task
+        --region=$AWS_REGION
+        --task-definition=$TASK_DEFINITION
+        --cluster=$ECS_CLUSTER
+        --group=$ECS_GROUP
+        --network-configuration='$NETWORK_CONFIG'
+        --count=$TASK_COUNT
+        --launch-type=$LAUNCH_TYPE > /opt/task-config.json
+  post_build:
+    commands:
+      - set -e
+      - echo $AWAIT_COMPLETION
+      - cat /opt/task-config.json
+
+artifacts:
+  name: task
+  files:
+    - task-config.json
+  discard-paths: no
+  base-directory: /opt
