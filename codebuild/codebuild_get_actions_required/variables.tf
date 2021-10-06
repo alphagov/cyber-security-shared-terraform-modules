@@ -49,7 +49,7 @@ variable "changed_files_artifact" {
 variable "changed_files_json" {
   description = "the path to the changed_files.json file in your repo (can include artifact var)."
   type        = string
-  default     = "$CODEBUILD_SRC_DIR_changed_files/changed_files.json"
+  default     = "/changed_files.json"
 }
 
 variable "action_triggers_artifact" {
@@ -61,7 +61,7 @@ variable "action_triggers_artifact" {
 variable "action_triggers_json" {
   description = "the path to the action_triggers.json file in your repo, relative to the root of the repo."
   type        = string
-  default     = "$CODEBUILD_SRC_DIR/terraform/deployments/670214072732/action_triggers.json"
+  default     = "/terraform/deployments/670214072732/action_triggers.json"
 }
 
 variable "output_artifact_path" {
