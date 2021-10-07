@@ -14,7 +14,7 @@ It is designed to be used within a CodePipeline pipeline.
 ## Example Usage
 ```terraform
 module "codebuild-terraform-apply" {
-  source                      = "github.com/alphagov/cyber-security-shared-terraform-modules//codebuild/codebuild_terraform_apply"
+  source                      = "github.com/alphagov/cyber-security-shared-terraform-modules//codebuild/codebuild_apply_terraform"
   codebuild_service_role_name = "example-codebuild-service-role"
   deployment_account_id       = 123456789012
   deployment_role_name        = "example-deployment-role"
