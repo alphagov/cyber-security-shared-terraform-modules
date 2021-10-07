@@ -76,7 +76,7 @@ variable "network_config" {
 
 variable "await_completion" {
   description = "Optionally switch off polling for task completion"
-  type        = boolean
+  type        = bool
   default     = true
 }
 
