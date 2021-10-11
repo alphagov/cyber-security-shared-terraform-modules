@@ -41,21 +41,6 @@ variable "region" {
   default     = "eu-west-2"
 }
 
-variable "ecs_cluster" {
-  description = "The name of the ECS cluster"
-  type        = string
-}
-
-variable "ecs_group" {
-  description = "The name of the ECS group"
-  type        = string
-}
-
-variable "task_definition" {
-  description = "The arn of the current task definition"
-  type        = string
-}
-
 variable "task_count" {
   description = "The number of instances of the task to launch"
   type        = number
@@ -68,10 +53,38 @@ variable "launch_type" {
   default     = "FARGATE"
 }
 
-variable "network_config" {
-  description = "The JSON network settings to run the task in (subnets and security groups)"
+variable "terraform_output_artifact" {
+  description = "An input artifact containing the result of a terraform output --json"
   type        = string
   default     = ""
+}
+
+variable "terraform_output_file" {
+  description = "The path to the terraform output --json output in the artifact"
+  type        = string
+  default     = ""
+}
+
+variable "terraform_output_ecs_cluster" {
+  description = "The name of the property containing the ecs cluster name"
+  type        = string
+  default     = ""
+}
+
+variable "terraform_output_ecs_group" {
+  description = "The name of the property containing the ecs service name"
+  type        = string
+  default     = ""
+}
+
+variable "terraform_output_ecs_task_definition" {
+  description = "The name of the property containing the current task definition"
+  type        = string
+}
+
+variable "terraform_output_ecs_network_config" {
+  description = "The name of the property containing the network config JSON"
+  type        = string
 }
 
 variable "await_completion" {

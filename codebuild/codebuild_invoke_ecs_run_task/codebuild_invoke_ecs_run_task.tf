@@ -45,21 +45,6 @@ resource "aws_codebuild_project" "codebuild_get_changed_file_list" {
     }
 
     environment_variable {
-      name  = "ECS_CLUSTER"
-      value = var.ecs_cluster
-    }
-
-    environment_variable {
-      name  = "ECS_GROUP"
-      value = var.ecs_group
-    }
-
-    environment_variable {
-      name  = "TASK_DEFINITION"
-      value = var.task_definition
-    }
-
-    environment_variable {
       name  = "TASK_COUNT"
       value = var.task_count
     }
@@ -70,8 +55,33 @@ resource "aws_codebuild_project" "codebuild_get_changed_file_list" {
     }
 
     environment_variable {
-      name  = "NETWORK_CONFIG"
-      value = var.network_config
+      name  = "TERRAFORM_OUTPUT_ARTIFACT"
+      value = var.terraform_output_artifact
+    }
+
+    environment_variable {
+      name  = "TERRAFORM_OUTPUT_FILE"
+      value = var.terraform_output_file
+    }
+
+    environment_variable {
+      name  = "ECS_CLUSTER_PROP"
+      value = var.terraform_output_ecs_cluster
+    }
+
+    environment_variable {
+      name  = "ECS_GROUP_PROP"
+      value = var.terraform_output_ecs_group
+    }
+
+    environment_variable {
+      name  = "TASK_DEFINITION_PROP"
+      value = var.terraform_output_task_definition
+    }
+
+    environment_variable {
+      name  = "NETWORK_CONFIG_PROP"
+      value = var.terraform_output_ecs_network_config
     }
 
     environment_variable {
