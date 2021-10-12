@@ -28,14 +28,15 @@ phases:
       - TASK_DEFINITION=$(bash /opt/get_output_value.sh $TF_OUTPUT $TASK_DEFINITION_PROP)
       - NETWORK_CONFIG=$(bash /opt/get_output_value.sh $TF_OUTPUT $NETWORK_CONFIG_PROP)
       - >
-        aws ecs run-task
+        cmd=$("aws ecs run-task
         --region=$AWS_REGION
         --task-definition=$TASK_DEFINITION
         --cluster=$CLUSTER
         --group=$GROUP
         --network-configuration='$NETWORK_CONFIG'
         --count=$TASK_COUNT
-        --launch-type=$LAUNCH_TYPE > /opt/task-config.json
+        --launch-type=$LAUNCH_TYPE > /opt/task-config.json")
+      - echo $cmd
   post_build:
     commands:
       - set -e
