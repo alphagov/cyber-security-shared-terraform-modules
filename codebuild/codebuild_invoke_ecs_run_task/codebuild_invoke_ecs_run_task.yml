@@ -17,6 +17,8 @@ phases:
       - TERRAFORM_OUTPUT_VAR="CODEBUILD_SRC_DIR_${TERRAFORM_OUTPUT_ARTIFACT}"
       - TERRAFORM_OUTPUT_PATH=${!TERRAFORM_OUTPUT_VAR}
       - TF_OUTPUT=$TERRAFORM_OUTPUT_PATH/$TERRAFORM_OUTPUT_FILE
+      - role_arn="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
+      - source /usr/local/bin/sts-assume-role.sh "$role_arn" "$AWS_DEFAULT_REGION"
 
   build:
     commands:
