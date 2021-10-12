@@ -41,6 +41,7 @@ phases:
       - set -e
       - echo $AWAIT_COMPLETION
       - cat /opt/task-config.json
+      - exit 1
 
 artifacts:
   name: task
