@@ -76,7 +76,7 @@ resource "aws_codebuild_project" "codebuild_get_changed_file_list" {
 
     environment_variable {
       name  = "TASK_DEFINITION_PROP"
-      value = var.terraform_output_task_definition
+      value = var.terraform_output_ecs_task_definition
     }
 
     environment_variable {
