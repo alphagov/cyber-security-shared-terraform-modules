@@ -2,9 +2,9 @@ locals {
   codebuild_project_name = "${var.pipeline_name}-${var.stage_name}-${var.action_name}"
 }
 
-resource "aws_codebuild_project" "codebuild_get_changed_file_list" {
+resource "aws_codebuild_project" "codebuild_invoke_ecs_run_task" {
   name        = local.codebuild_project_name
-  description = "Get diff files for a given repository and store as artifact."
+  description = "Run aws ecs run-task with arguments derived from terraform output"
 
   service_role = data.aws_iam_role.execution_role.arn
 
