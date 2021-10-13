@@ -89,6 +89,16 @@ resource "aws_codebuild_project" "codebuild_invoke_ecs_run_task" {
       value = var.await_completion
     }
 
+    environment_variable {
+      name  = "AWAIT_EXIT_CODE"
+      value = var.await_exit_code
+    }
+
+    environment_variable {
+      name  = "AWAIT_LAST_STATUS"
+      value = var.await_last_status
+    }
+
   }
 
   source {

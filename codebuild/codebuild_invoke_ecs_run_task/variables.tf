@@ -93,6 +93,18 @@ variable "await_completion" {
   default     = true
 }
 
+variable "await_exit_code" {
+  description = "Allow setting a non-zero desired exit status value"
+  type        = number
+  default     = 0
+}
+
+variable "await_last_status" {
+  description = "Allow setting a desired final state"
+  type        = string
+  default     = "STOPPED"
+}
+
 variable "docker_hub_credentials" {
   description = "The name of the Secrets Manager secret that contains the username and password for the Docker Hub"
   type        = string
