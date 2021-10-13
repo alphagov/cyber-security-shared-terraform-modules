@@ -67,6 +67,7 @@ phases:
                 task_exit_code=$(echo $state | jq -r '.tasks[0].containers[0].exitCode')
                 if [[ "$task_exit_code" == "$AWAIT_EXIT_CODE" ]]; then
                   echo "Task completed: $task"
+                  echo $state > /opt/task.json
                 else
                   echo "Exit code: $task_exit_code does not match $AWAIT_EXIT_CODE"
                   exit_code=1
@@ -85,6 +86,6 @@ phases:
 artifacts:
   name: task
   files:
-    - task-config.json
+    - task.json
   discard-paths: no
   base-directory: /opt
