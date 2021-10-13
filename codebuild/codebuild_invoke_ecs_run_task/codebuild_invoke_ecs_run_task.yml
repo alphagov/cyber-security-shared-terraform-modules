@@ -43,33 +43,45 @@ phases:
     commands:
       - set -e
       - echo $AWAIT_COMPLETION
+      - time_limit=20
+      - time_elapsed=0
+      - exit_code=0
       - |
+        # If AWAIT_COMPLETION is switched off this phase does nothing
+        # It exit 0s and the build is marked successful
         if [[ "$AWAIT_COMPLETION" == "true" ]]; then
           echo "Waiting for completion status of task"
-          cat /opt/task.json
-          completed=0
-          while [[ $completed -eq 0 ]]; do
-            completed=1
-            tasks=$(cat /tmp/task.json | jq '.tasks[] | .taskArn')
+          exit_code=1
+          # If the exit_code is still 1 at the time limit
+          # It exit 1s and the build is marked failed
+          #
+          # If all the tasks match the required status fields
+          # It exit 0s and the build is marked successful
+          while [[ $exit_code -eq 1 ]] && [[ $time_elapsed -lte $time_limit ]]; do
+            exit_code=0
+            tasks=$(cat /opt/task.json | jq -r '.tasks[] | .taskArn')
             for task in $tasks; do
-              echo $task;
-              state=$(aws ecs describe-tasks --tasks $task)
+              echo "Getting status for task: $task";
+              state=$(aws ecs describe-tasks --cluster=$CLUSTER --tasks=$task)
               last_status=$(echo $state | jq -r '.tasks[0].containers[0].lastStatus')
               if [[ $last_status == $AWAIT_LAST_STATUS ]]; then
-                exit_code=$(echo $state | jq -r '.tasks[0].containers[0].exitCode')
-                if [[ "$exit_code" != "$AWAIT_EXIT_CODE" ]]; then
-                  echo "Exit code: $exit_code does not match $AWAIT_EXIT_CODE"
-                  completed=0
+                task_exit_code=$(echo $state | jq -r '.tasks[0].containers[0].exitCode')
+                if [[ "$task_exit_code" == "$AWAIT_EXIT_CODE" ]]; then
+                  echo "Task completed: $task"
+                else
+                  echo "Exit code: $task_exit_code does not match $AWAIT_EXIT_CODE"
+                  exit_code=1
                 fi
               else
                 echo "Last status: $last_status does not match $AWAIT_LAST_STATUS"
-                completed=0
+                exit_code=1
               fi
             done
             sleep 1m
+            time_elapsed=$time_elapsed+1
           done
         fi
-      - exit 1
+        exit $exit_code
 
 artifacts:
   name: task
