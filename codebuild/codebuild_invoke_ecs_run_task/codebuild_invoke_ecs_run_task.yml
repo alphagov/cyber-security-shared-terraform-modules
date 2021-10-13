@@ -47,16 +47,18 @@ phases:
       - time_elapsed=0
       - exit_code=0
       - |
-        # If AWAIT_COMPLETION is switched off this phase does nothing
-        # It exit 0s and the build is marked successful
+        echo "\
+          If AWAIT_COMPLETION is switched off this phase does nothing
+          It exit 0s and the build is marked successful"
         if [[ "$AWAIT_COMPLETION" == "true" ]]; then
           echo "Waiting for completion status of task"
           exit_code=1
-          # If the exit_code is still 1 at the time limit
-          # It exit 1s and the build is marked failed
-          #
-          # If all the tasks match the required status fields
-          # It exit 0s and the build is marked successful
+          echo "\
+            If the exit_code is still 1 at the time limit
+            It exit 1s and the build is marked failed
+
+            If all the tasks match the required status fields
+            It exit 0s and the build is marked successful"
           while [[ $exit_code -eq 1 ]] && [[ $time_elapsed -lte $time_limit ]]; do
             exit_code=0
             tasks=$(cat /opt/task.json | jq -r '.tasks[] | .taskArn')
