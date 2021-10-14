@@ -1,8 +1,3 @@
-variable "region_name" {
-  type    = string
-  default = "eu-west-2"
-}
-
 variable "deployment_account_id" {
   description = "the account into which the terraform will be deployed"
   type        = string
