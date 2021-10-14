@@ -39,3 +39,7 @@ For a full list of all variables needed for this module, as well as a short desc
 see [variables.tf](variables.tf).
 
 ## Outputs
+
+This module has a single output:
+- `project_name` - The name of the created CodeBuild project. In the `configuration` block of the
+  CodePipeline `action` you want to use this project in, set `ProjectName` to this value.
