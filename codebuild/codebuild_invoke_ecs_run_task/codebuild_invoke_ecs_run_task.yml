@@ -1,0 +1,91 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  pre_build:
+    commands:
+      - set -e
+      - |
+        cat <<EOF > /opt/get_output_value.sh
+        #!/bin/bash
+        outputs_file=\$1;
+        property=\$2;
+        cat \$outputs_file | jq -r --arg prop "\$property" '.[\$prop].value'
+        EOF
+      - TERRAFORM_OUTPUT_VAR="CODEBUILD_SRC_DIR_${TERRAFORM_OUTPUT_ARTIFACT}"
+      - TERRAFORM_OUTPUT_PATH=${!TERRAFORM_OUTPUT_VAR}
+      - TF_OUTPUT=$TERRAFORM_OUTPUT_PATH/$TERRAFORM_OUTPUT_FILE
+      - role_arn="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME"
+      - source /usr/local/bin/sts-assume-role.sh "$role_arn" "$AWS_DEFAULT_REGION"
+
+  build:
+    commands:
+      - set -e
+      - CLUSTER=$(bash /opt/get_output_value.sh $TF_OUTPUT $ECS_CLUSTER_PROP)
+      - GROUP=$(bash /opt/get_output_value.sh $TF_OUTPUT $ECS_GROUP_PROP)
+      - TASK_DEFINITION=$(bash /opt/get_output_value.sh $TF_OUTPUT $TASK_DEFINITION_PROP)
+      - NETWORK_CONFIG=$(bash /opt/get_output_value.sh $TF_OUTPUT $NETWORK_CONFIG_PROP)
+      - >
+        task_config="aws ecs run-task
+        --region=$AWS_REGION
+        --task-definition=$TASK_DEFINITION
+        --cluster=$CLUSTER
+        --group=$GROUP
+        --network-configuration='$NETWORK_CONFIG'
+        --count=$TASK_COUNT
+        --launch-type=$LAUNCH_TYPE"
+      - echo $task_config > /opt/task-bash.sh
+      - task_output=$(bash /opt/task-bash.sh)
+      - echo $task_output > /opt/task.json
+  post_build:
+    commands:
+      - set -e
+      - echo $AWAIT_COMPLETION
+      - time_limit=20
+      - time_elapsed=0
+      - exit_code=0
+      - |
+        echo "If AWAIT_COMPLETION is switched off this phase does nothing"
+        echo "It exit 0s and the build is marked successful"
+        if [[ "$AWAIT_COMPLETION" == "true" ]]; then
+          echo "Waiting for completion status of task"
+          exit_code=1
+          echo "If the exit_code is still 1 at the time limit"
+          echo "It exit 1s and the build is marked failed"
+          echo "If all the tasks match the required status fields"
+          echo "It exit 0s and the build is marked successful"
+          while [[ $exit_code -eq 1 ]] && [[ $time_elapsed -le $time_limit ]]; do
+            exit_code=0
+            tasks=$(cat /opt/task.json | jq -r '.tasks[] | .taskArn')
+            for task in $tasks; do
+              echo "Getting status for task: $task";
+              state=$(aws ecs describe-tasks --cluster=$CLUSTER --tasks=$task)
+              last_status=$(echo $state | jq -r '.tasks[0].containers[0].lastStatus')
+              if [[ $last_status == $AWAIT_LAST_STATUS ]]; then
+                task_exit_code=$(echo $state | jq -r '.tasks[0].containers[0].exitCode')
+                if [[ "$task_exit_code" == "$AWAIT_EXIT_CODE" ]]; then
+                  echo "Task completed: $task"
+                  echo $state > /opt/task.json
+                else
+                  echo "Exit code: $task_exit_code does not match $AWAIT_EXIT_CODE"
+                  exit_code=1
+                fi
+              else
+                echo "Last status: $last_status does not match $AWAIT_LAST_STATUS"
+                exit_code=1
+              fi
+            done
+            sleep 1m
+            time_elapsed=$time_elapsed+1
+          done
+        fi
+        exit $exit_code
+
+artifacts:
+  name: task
+  files:
+    - task.json
+  discard-paths: no
+  base-directory: /opt
