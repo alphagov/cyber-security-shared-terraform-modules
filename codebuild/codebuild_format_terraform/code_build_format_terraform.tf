@@ -47,7 +47,7 @@ resource "aws_codebuild_project" "code_pipeline_format_terraform" {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = file("${path.module}/code_build_validate_terraform.yml")
+    buildspec = file("${path.module}/code_build_format_terraform.yml")
   }
 
   tags = merge(var.tags, { "Name" : local.codebuild_project_name })
