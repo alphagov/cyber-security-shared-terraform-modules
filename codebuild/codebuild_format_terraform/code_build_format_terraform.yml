@@ -1,0 +1,17 @@
+version: 0.2
+
+env:
+  shell: bash
+
+phases:
+  pre_build:
+    commands:
+      - set -x
+      - set -e
+      - echo '[INFO] Copy artifacts'
+      - echo $COPY_ARTIFACTS
+      - copy_artifacts.py -j $COPY_ARTIFACTS
+      - cd $TERRAFORM_DIRECTORY
+      - tfenv use $TERRAFORM_VERSION
+      - echo '[INFO] Running terraform fmt..'
+      - terraform fmt -diff -check -recursive
