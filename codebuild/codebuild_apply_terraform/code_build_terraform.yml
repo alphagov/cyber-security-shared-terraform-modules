@@ -14,48 +14,48 @@ phases:
       - REPO=$(pwd | awk -F '/' '{print $NF}') # For the artefact name
       - ACTIONS_REQUIRED="${CODEBUILD_SRC_DIR_actions_required}/actions_required.json"
       - if [ -z  "$CHECK_TRIGGER" ] || [ "$CHECK_TRIGGER" -eq 0 ]; then
-          echo "CHECK_TRIGGER not supplied, defaulting to true..";
-          TRIGGER_BUILD=true;
-        elif [ ! -z "$CHECK_TRIGGER" ] && [ "$CHECK_TRIGGER" -eq 1 ]; then
-       	  TRIGGER_BUILD=$(jq --arg ACTION_NAME "$ACTION_NAME" '.[] | select(.action ==$ACTION_NAME).required' $ACTIONS_REQUIRED);
+         echo "CHECK_TRIGGER not supplied..";
+         TRIGGER_BUILD=0;
+        elif [ ! -z "$CHECK_TRIGGER" ] || [ "$CHECK_TRIGGER" -eq 1 ]; then
+          TRIGGER_BUILD=$(jq --arg ACTION_NAME "$ACTION_NAME" '.[] | select(.action ==$ACTION_NAME).required' $ACTIONS_REQUIRED);
         fi
-      - if $TRIGGER_BUILD; then
+      - if [ -z "$TRIGGER_BUILD" ] || [ "$TRIGGER_BUILD" -eq 1 ]; then
           echo '[INFO] Validate Terraform...';
           cd $TERRAFORM_DIRECTORY;
           terraform init --backend=false;
           terraform validate;
         else
-          echo "trigger build set to false, not validating terraform"   ;
+          echo "trigger build set to false, not validating terraform"
         fi
   build:
     commands:
       - if $TRIGGER_BUILD; then
-       	  echo '[INFO] Assuming TF Deployer IAM role...';
-          role_arn="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME";
-          source /usr/local/bin/sts-assume-role.sh "$role_arn" "$AWS_DEFAULT_REGION";
-            if [ -f "$BACKEND_VAR_FILE" ]; then
-       	      terraform init -backend-config="$BACKEND_VAR_FILE";
-       	    else
-              terraform init;
-            fi;
-       	    if [ -f "$APPLY_VAR_FILE" ]; then
-       	      terraform apply --auto-approve -var-file="$APPLY_VAR_FILE";
-            else
-              terraform apply --auto-approve;
-            fi;
+       	echo '[INFO] Assuming TF Deployer IAM role...';
+       	role_arn="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME";
+       	source /usr/local/bin/sts-assume-role.sh "$role_arn" "$AWS_DEFAULT_REGION";
+          if [ -f "$BACKEND_VAR_FILE" ]; then
+            terraform init -backend-config="$BACKEND_VAR_FILE";
+       	  else
+       	   terraform init;
+       	  fi;
+          if [ -f "$APPLY_VAR_FILE" ]; then
+           terraform apply --auto-approve -var-file="$APPLY_VAR_FILE";
+          else
+           terraform apply --auto-approve;
+           fi;
         else
           echo "Trigger build set to false, not applying terraform";
         fi
   post_build:
     commands:
       - if $TRIGGER_BUILD; then
-          echo '[INFO] Assuming TF Deployer IAM role...';
-          role_arn="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME";
-          source /usr/local/bin/sts-assume-role.sh "$role_arn" "$AWS_DEFAULT_REGION";
-          echo '[INFO] Writing Terraform output to a JSON file...';
-          terraform output -json > /opt/${SERVICE_NAME}-${AWS_ACCOUNT_ID}.json;
+         echo '[INFO] Assuming TF Deployer IAM role...';
+         role_arn="arn:aws:iam::$AWS_ACCOUNT_ID:role/$ROLE_NAME";
+         source /usr/local/bin/sts-assume-role.sh "$role_arn" "$AWS_DEFAULT_REGION";
+         echo '[INFO] Writing Terraform output to a JSON file...';
+         terraform output -json > /opt/${SERVICE_NAME}-${AWS_ACCOUNT_ID}.json;
         else
-       	  echo "Trigger build set to false, not writing terraform output";
+         echo "Trigger build set to false, not writing terraform output";
         fi
 
 artifacts:
