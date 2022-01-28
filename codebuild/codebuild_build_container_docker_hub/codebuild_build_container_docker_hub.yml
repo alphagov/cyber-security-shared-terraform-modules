@@ -8,12 +8,14 @@ phases:
     commands:
       - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       - ACTIONS_REQUIRED="${CODEBUILD_SRC_DIR_actions_required}/actions_required.json"
-      - if [ -n "$CHECK_TRIGGER" ]; then
-          TRIGGER_BUILD=$(jq --arg ACTION_NAME "$ACTION_NAME" '.[] | select(.action ==$ACTION_NAME).required' $ACTIONS_REQUIRED); 
-        else 
-          echo "CHECK_TRIGGER not supplied, defaulting to true..";
-          TRIGGER_BUILD=true; 
-        fi
+      - if [[ "$CHECK_TRIGGER" -eq 0 ]]; then
+         echo "CHECK_TRIGGER was supplied";
+        elif [[ "$CHECK_TRIGGER" -eq 1 ]]; then
+         TRIGGER_BUILD=$(jq --arg ACTION_NAME "$ACTION_NAME" '.[] | select(.action ==$ACTION_NAME).required' $ACTIONS_REQUIRED);
+        else
+          echo "CHECK_TRIGGER not supplied - defaulting to true";
+          TRIGGER_BUILD=true;
+        fi 
   build:
     commands:
       - if $TRIGGER_BUILD; then
