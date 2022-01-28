@@ -15,10 +15,13 @@ phases:
       - echo Logging into Dockerhub...
       - docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
       - ACTIONS_REQUIRED="${CODEBUILD_SRC_DIR_actions_required}/actions_required.json"
-      - if [[ -z "$CHECK_TRIGGER" || "$CHECK_TRIGGER" -eq 0 ]]; then
-         echo "CHECK_TRIGGER not supplied";
-        elif [[ ! -z "$CHECK_TRIGGER" && "$CHECK_TRIGGER" -eq 1 ]]; then
+      - if [[ "$CHECK_TRIGGER" -eq 0 ]]; then
+         echo "CHECK_TRIGGER was supplied";
+        elif [[ "$CHECK_TRIGGER" -eq 1 ]]; then
          TRIGGER_BUILD=$(jq --arg ACTION_NAME "$ACTION_NAME" '.[] | select(.action ==$ACTION_NAME).required' $ACTIONS_REQUIRED);
+        else
+          echo "CHECK_TRIGGER not supplied - defaulting to true";
+          TRIGGER_BUILD=true;
         fi
   build:
     commands:

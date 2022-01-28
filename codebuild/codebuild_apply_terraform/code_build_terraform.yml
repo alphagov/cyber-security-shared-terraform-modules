@@ -13,15 +13,15 @@ phases:
       - copy_artifacts.py -j $COPY_ARTIFACTS
       - REPO=$(pwd | awk -F '/' '{print $NF}') # For the artefact name
       - ACTIONS_REQUIRED="${CODEBUILD_SRC_DIR_actions_required}/actions_required.json"
-      - if [[ -z "$CHECK_TRIGGER" || "$CHECK_TRIGGER" -eq 0 ]]; then
-         echo "CHECK_TRIGGER not supplied - no rebuild required";
-         NO_TF_VALIDATION=true;
-        elif [[ ! -z "$CHECK_TRIGGER" && "$CHECK_TRIGGER" -eq 1 ]]; then
+      - if [[ "$CHECK_TRIGGER" -eq 0 ]]; then
+         echo "CHECK_TRIGGER was supplied - no rebuild required";
+        elif [[ $CHECK_TRIGGER" -eq 1 ]]; then
          TRIGGER_BUILD=$(jq --arg ACTION_NAME "$ACTION_NAME" '.[] | select(.action ==$ACTION_NAME).required' $ACTIONS_REQUIRED); 
+        else
+          echo "CHECK_TRIGGER not supplied - defaulting to true";
+          TRIGGER_BUILD=true;
         fi
-      - if [ ! -z "$NO_TF_VALIDATION" ]; then
-    	 echo "Trigger build is not required, not validating Terraform";
-        elif [ ! -z "$TRIGGER_BUILD" ]; then
+      - if [[ -n $TRIGGER_BUILD ]]; then
          echo '[INFO] Validate Terraform...';
          cd $TERRAFORM_DIRECTORY;
          terraform init --backend=false;
