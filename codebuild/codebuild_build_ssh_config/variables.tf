@@ -40,3 +40,8 @@ variable "tags" {
   description = "Pass through parent service tags to CodeBuild project resource"
   default     = {}
 }
+
+variable "docker_hub_credentials" {
+  description = "The name of the Secrets Manager secret that contains the username and password for the Docker Hub"
+  type        = string
+}

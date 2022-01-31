@@ -24,6 +24,11 @@ resource "aws_codebuild_project" "codebuild_build_ssh_config" {
     image_pull_credentials_type = "CODEBUILD"
     privileged_mode             = true
 
+    registry_credential {
+      credential_provider = "SECRETS_MANAGER"
+      credential          = data.aws_secretsmanager_secret.dockerhub_creds.arn
+    }
+
     environment_variable {
       name  = "DEPLOY_KEY"
       value = var.deploy_key

@@ -21,6 +21,7 @@ module "codebuild_build_ssh_config" {
   action_name                 = "CodePipelineActionName"
   environment                 = var.environment
   deploy_key                  = var.ssm_deploy_key
+  docker_hub_credentials      = var.docker_hub_creds
   tags                        = local.tags
 }
 ```
