@@ -21,7 +21,7 @@ resource "aws_codebuild_project" "codebuild_build_ssh_config" {
     compute_type                = "BUILD_GENERAL1_SMALL"
     image                       = var.codebuild_image
     type                        = "LINUX_CONTAINER"
-    image_pull_credentials_type = "CODEBUILD"
+    image_pull_credentials_type = "SERVICE_ROLE"
     privileged_mode             = true
 
     registry_credential {
