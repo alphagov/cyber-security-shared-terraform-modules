@@ -7,13 +7,13 @@ resources to grant access.
 ## Instructions
 
 ### Import module
-Import the module into your terraform
+Import the module into your terraform. Ask the Cyber Security Team for the lambda role ARN.
 
 ``` hcl
 module "s3_log_shipping" {
-  source  = "github.com/alphagov/cyber-security-shared-terraform-modules//s3/s3_log_shipping"
-  sqs_arn = aws_sqs_queue.YOUR_SQS.arn
-  s3_name  = aws_s3_bucket.YOUR_BUCKET.id
+  source                    = "github.com/alphagov/cyber-security-shared-terraform-modules//s3/s3_log_shipping"
+  s3_name                   = aws_s3_bucket.YOUR_BUCKET.id
+  s3_processor_lambda_role  = data.aws_iam_role.lambda_role.arn
 }
 ```
 
