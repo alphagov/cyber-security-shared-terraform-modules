@@ -36,22 +36,6 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
 }
 ```
 
-Repeat the policy combination and application for the SQS queue.
-
-``` hcl
-data "aws_iam_policy_document" "sqs_combined" {
-  source_policy_documents = [
-    data.aws_iam_policy_document.YOUR_SQS_POLICY.json,
-    module.s3_log_shipping.sqs_policy
-  ]
-}
-
-resource "aws_sqs_queue_policy" "queue_policy" {
-  queue_url = aws_sqs_queue.YOUR_SQS.id
-  policy    = data.aws_iam_policy_document.sqs_combined.json
-}
-```
-
 ## What the Lambda maintainers need to do afterwards
 
 Once this is all set up, the maintainers of the s3 processor lambda
