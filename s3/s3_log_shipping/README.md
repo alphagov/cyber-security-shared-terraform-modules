@@ -13,7 +13,7 @@ resources to grant access.
 
 ### Import module
 Import the module into your terraform
-TODO Update path to cyber-security-terraform with hash
+
 ``` hcl
 module "s3_log_shipping" {
   source  = "github.com/alphagov/cyber-security-shared-terraform-modules//s3/s3_log_shipping"
