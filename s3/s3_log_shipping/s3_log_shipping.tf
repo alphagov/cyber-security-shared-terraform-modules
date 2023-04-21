@@ -1,27 +1,3 @@
-data "aws_iam_policy_document" "sqs" {
-  statement {
-    sid = "SQSLogshipping"
-
-    principals {
-      type        = "AWS"
-      identifiers = [var.s3_processor_lambda_role]
-    }
-
-    effect = "Allow"
-
-    actions = [
-      "SQS:ChangeMessageVisibility",
-      "SQS:DeleteMessage",
-      "SQS:ReceiveMessage",
-      "SQS:GetQueueAttributes"
-    ]
-
-    resources = [
-      var.sqs_arn
-    ]
-  }
-}
-
 data "aws_iam_policy_document" "s3" {
   statement {
     sid = "S3LogShipping"
@@ -39,9 +15,20 @@ data "aws_iam_policy_document" "s3" {
     ]
 
     resources = [
-      "arn:aws:s3:::${var.s3_name}",
-      "arn:aws:s3:::${var.s3_name}/*",
+      "arn:aws:s3:::${var.bucket_name}",
+      "arn:aws:s3:::${var.bucket_name}/*",
     ]
+  }
+}
+
+resource "aws_s3_bucket_notification" "bucket_notification" {
+  bucket   = var.bucket_name
+  for_each = toset(var.log_prefixes)
+  queue {
+    id            = "${each.value}-upload-event"
+    queue_arn     = var.s3_processor_sqs_arn
+    events        = ["s3:ObjectCreated:*"]
+    filter_prefix = each.value
   }
 }
 
@@ -49,7 +36,7 @@ data "aws_iam_policy_document" "s3" {
 # bucket objects won't be allowed.
 # https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html
 resource "aws_s3_bucket_ownership_controls" "transfer_object_ownership" {
-  bucket = var.s3_name
+  bucket = var.bucket_name
 
   rule {
     object_ownership = "BucketOwnerEnforced"
